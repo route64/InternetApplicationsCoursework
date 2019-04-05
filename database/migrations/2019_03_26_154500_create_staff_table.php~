@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateStaffTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('staff', function (Blueprint $table) {
+            $table->timestamps();
+            $table->integer('user_id');
+            $table->string('username')->unique;
+            $table->enum('role', ['ADMIN', 'ASSISTANT', 'JANITOR', 'MANAGER', 'RECEPTIONIST', 'VET', 'VOLUNTEER']);
+            $table->enum('pay_scale', ['1', '2', '3', '4', '5']);
+            $table->date('DOB');
+            $table->date('start_date');
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('staff');
+    }
+}

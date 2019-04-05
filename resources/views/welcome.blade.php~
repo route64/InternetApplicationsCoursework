@@ -1,0 +1,15 @@
+@extends('layouts.app')
+
+@section('stylesheets')
+<link href="{{ asset('../resources/css/general-style.css') }}" rel="stylesheet">
+@endsection
+
+@section('content')
+<div class="about-content col-sm-6">
+	<h1>About</h1>
+	<p>Welcome to my Aston Animal Sanctuary website. This website has been produced for my 'Web Applications and Techniques
+	 coursework in my second year at Aston University. This website is completely fictitious and the animals presented
+	 on it are entirely made up. No offense is meant by the content presented and the images used are not my own.
+	 The images have been collected from a variety of sites, and where possible I have tried to credit their owners.</p>
+</div>
+@endsection

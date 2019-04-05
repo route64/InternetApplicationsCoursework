@@ -1,0 +1,96 @@
+#header {
+	border: solid 3px;
+	border-radius: 25px;
+	text-align: center;
+}
+
+#sidebar {
+	border: solid 3px #4CAF50;
+	border-radius: 10px;
+	border-style: groove;
+	
+	text-align: left;
+	font-size: 200%;
+	font-weight: bold;
+	
+	line-height: 150%;
+	
+	background-color: #9efac9;
+	height: 100%;
+}
+
+body {
+  background: linear-gradient(#ccf9dd, #ccf9dd );
+  background-size: 112em 112em, 5em 5em, 3em 3em, 1em 1em;
+  
+  font-size: 100%;
+  }
+
+
+.btn {
+	background-color: green;
+	
+}
+.btn:focus,.btn:hover{
+	background-color: #336600;
+}
+#animal-table {
+	background: #9efac9;
+	border-collapse: collapse;
+	border-style: outset;
+	border-color: #9bcdbb;
+	border-width: 6px;
+  	width: 80%;
+}
+
+#animal-title {
+text-align: center;
+font-weight: bold;
+}
+
+#animal-table thead {
+	border-style: outset;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+  height: 40px;
+}
+
+tbody tr:nth-child(even){
+	background-color: #f2f2f2;
+	border-style: ridge;
+	border-color: #9bcdbb;
+}
+
+tbody tr:hover {background-color: #599d5d;}
+
+#animal-table td {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 100%;
+  text-align: left;
+	padding-top: 12px;
+   padding-bottom: 12px;
+   
+   text-overflow: ellipsis;
+  	overflow: hidden;
+  	height: 200px;
+}
+#animal-table img {
+	padding-left: 20px;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+.about-content{
+	border: solid 2px #4CAF50;
+	border-style: outset;
+	border-radius: 15px;
+}
+.about-content h1 {
+	text-align: center;
+	text-decoration: underline;
+	font-weight: bold;
+}

@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateAdoptionRecordsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('adoption-_records', function (Blueprint $table) {
+            $table->timestamps();
+            $table->string('ref_id')->unique();
+            $table->string('adopter');
+            $table->integer('adoptee_id');
+            $table->enum('status', ['PENDING', 'ACCEPTED', 'DENIED']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('adoption-_records');
+    }
+}
