@@ -14,23 +14,34 @@
 	</div>
 
 	@if(Auth::check())
-		<form method="get">
-		<button class="btn col-sm-offset-4" onclick='' value="submit" name="submit" type="submit" id="adopt-btn" >Apply To Adopt</button>
-		</form>
-		<?php  function submitApplication(){	
-			DB::table('adoption-_records')->insert(
-			['ref_id'=>Auth::user()->id . $animal->id ,
-			'adopter'=>Auth::user()->username , 
-			'adoptee_id'=>$animal->id, 
-			'status'=>'PENDING']);  
-			
-			print "<b> Application Submitted</b>";		
-		}
 		
-		if (isset($_GET['submit'])){
-			submitApplication();		
-		}
-		?>
+			<form method="get">
+			<button class="btn col-sm-offset-4" onclick='' value="submit" name="submit" type="submit" id="adopt-btn" >Apply To Adopt</button>
+			</form>
+			
+			<?php  function submitApplication($animalID){
+				try{
+					DB::table('adoption-_records')->insert(
+					['ref_id'=>Auth::user()->id . $animalID ,
+					'adopter'=>Auth::user()->username , 
+					'adoptee_id'=>$animalID, 
+					'status'=>'PENDING']);
+					
+					print '<script>alert("Application sent!")</script>'; 
+				}
+				catch(Exception $e){
+					print '<script>alert("Application previously sent! Cannot send two applications for the same animal.")</script>';				
+				}	
+			 	
+				
+			}?>
+			
+		
+		
+		@if (isset($_GET['submit']))
+			{{submitApplication($animal->id)	}}	
+		
+		@endif
 	@endif
 	
 @endsection
