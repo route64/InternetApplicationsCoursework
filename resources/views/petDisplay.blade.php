@@ -20,9 +20,11 @@
 			</form>
 			
 			<?php  function submitApplication($animalID){
+				$date = new DateTime();
 				try{
 					DB::table('adoption-_records')->insert(
-					['ref_id'=>Auth::user()->id . $animalID ,
+					['created_at'=> $date,
+					'ref_id'=>Auth::user()->id . $animalID ,
 					'adopter'=>Auth::user()->username , 
 					'adoptee_id'=>$animalID, 
 					'status'=>'PENDING']);

@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('home');
-});
+});*/
 
 Route::get('/about', function(){
 	return view('welcome');
@@ -25,10 +25,6 @@ Route::get('/animals', function(){
 });
 
 Route::get('animal-display/{id}', 'DisplayPet@displayAnimal');
-/*Route::get('/animal-display/{id}', function($id){
-	$animal = DB::table('animals')->where('id', $id)->get();
-	return view('animals', ['animal' => $animal]);
-});*/
 
 Route::get('/contact', function(){
 	return view('contact');
@@ -43,4 +39,5 @@ Route::get('/staff', function(){
 });
 Auth::routes();
 
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');

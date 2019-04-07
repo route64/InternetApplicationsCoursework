@@ -19,8 +19,30 @@
                         </div-->
                     @endif
                     <h2 style="text-align: center;">Adoption Applications</h2>
-						  <table>
-						  </table>
+						<?php $records = $adoptionRecordsdb->where('adopter', '=', Auth::user()->username)->get() ?>
+						@if ($records != '[]')						  
+						  	<table id="userApplicationsTable">
+						  		<thead>
+									<th class="col-sm-2">Reference ID</th>
+									<th class="col-sm-4">Animal Name</th>
+									<th class="col-sm-3">Status</th>
+									<th class="col-sm-3">Submitted At</th>						  		
+						  		</thead>
+						  		<tbody>
+										@foreach($records as $record)
+										<tr>
+											<?php $animalrecord = $animaldb->where('id', '=', $record->adoptee_id)->get() ?>
+											<td>{{ $record->ref_id }}</td>
+											<td> @foreach($animalrecord as $ar) {{ $ar->name  }}@endforeach</td>
+											<td>{{ $record->status }}</td>
+											<td>{{ $record->created_at }}</td>
+										</tr>
+										@endforeach						  		
+						  		</tbody>
+						  	</table>
+						@else
+							<h3 style="text-align: center;">No Applications</h3>
+						@endif
                     
                 </div>
             </div>

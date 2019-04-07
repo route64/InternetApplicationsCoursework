@@ -26,7 +26,6 @@ body {
   font-size: 100%;
   }
 
-
 .btn {
 	background-color: green;
 	
@@ -34,7 +33,20 @@ body {
 .btn:focus,.btn:hover{
 	background-color: #336600;
 }
-#animal-table {
+
+#userApplicationsTable td {
+	text-align: center;
+}
+#userApplicationsTable {
+	width: 100%;
+	font-size: 120%;
+}
+#userApplicationsTable th {
+	font-weight: bolder;
+	font-size: 130%;
+}
+
+table {
 	background: #9efac9;
 	border-collapse: collapse;
 	border-style: outset;
@@ -43,12 +55,7 @@ body {
   	width: 80%;
 }
 
-#animal-title {
-text-align: center;
-font-weight: bold;
-}
-
-#animal-table thead {
+thead {
 	border-style: outset;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -59,6 +66,12 @@ font-weight: bold;
   height: 40px;
 }
 
+#animal-title {
+text-align: center;
+font-weight: bold;
+}
+
+
 tbody tr:nth-child(even){
 	background-color: #f2f2f2;
 	border-style: ridge;
@@ -67,7 +80,7 @@ tbody tr:nth-child(even){
 
 tbody tr:hover {background-color: #599d5d;}
 
-#animal-table td {
+td {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 100%;
   text-align: left;
@@ -76,7 +89,7 @@ tbody tr:hover {background-color: #599d5d;}
    
    text-overflow: ellipsis;
   	overflow: hidden;
-  	height: 200px;
+  	max-height: 200px;
 }
 #animal-table img {
 	padding-left: 20px;

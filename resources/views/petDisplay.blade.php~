@@ -20,15 +20,19 @@
 			</form>
 			
 			<?php  function submitApplication($animalID){
+				$date = new DateTime();
 				try{
 					DB::table('adoption-_records')->insert(
-					['ref_id'=>Auth::user()->id . $animalID ,
+					['created_at'=> $date->format('U = Y-m-d H:i:s'),
+					'ref_id'=>Auth::user()->id . $animalID ,
 					'adopter'=>Auth::user()->username , 
 					'adoptee_id'=>$animalID, 
-					'status'=>'PENDING']); 
+					'status'=>'PENDING']);
+					
+					print '<script>alert("Application sent!")</script>'; 
 				}
 				catch(Exception $e){
-					print '<script>alert("already added")</script>';				
+					print '<script>alert("Application previously sent! Cannot send two applications for the same animal.")</script>';				
 				}	
 			 	
 				
