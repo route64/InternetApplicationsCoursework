@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Animals;
+use App\adoption_records;
 use Illuminate\Http\Request;
 use DB;
 
@@ -24,9 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-    	  $animaldb = DB::table('animals');
-    	  $adoptionRecord = DB::table('adoption-_records');
-    	  
-        return view('home', ['animaldb' => $animaldb, 'adoptionRecordsdb'=>$adoptionRecord]);
+    	  $animaldb = DB::table('animals')->get();
+    	  $adoptionRecordsdb = DB::table('adoption-_records')->get();
+        return view('home');
     }
 }

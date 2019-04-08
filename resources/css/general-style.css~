@@ -43,7 +43,7 @@ body {
 }
 #userApplicationsTable th {
 	font-weight: bolder;
-	font-size: 150%;
+	font-size: 130%;
 }
 
 table {
@@ -83,18 +83,27 @@ tbody tr:hover {background-color: #599d5d;}
 td {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 100%;
-  text-align: left;
-	padding-top: 12px;
-   padding-bottom: 12px;
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
    
-   text-overflow: ellipsis;
-  	overflow: hidden;
-  	max-height: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 200px;
+}
+
+#animal-table td {
+  text-align: left;
 }
 #animal-table img {
 	padding-left: 20px;
 	max-width: 200px;
 	max-height: 200px;
+}
+
+#adoption-records-table-staff-view {
+	border-left-width: 10px;
+	
 }
 
 .about-content{

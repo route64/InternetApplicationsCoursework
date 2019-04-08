@@ -43,6 +43,12 @@
 							<a href='{!! url('/home'); !!}'>Home</a>
 							<a href='{!! url('/about'); !!}'>About</a>		
 							<a href='{!! url('/animals'); !!}'>Adopt</a>
+							<!--Check if user is staff and if so allow them to view records option on nav-menu-->
+							@if(Auth::check())
+							@if (Auth::user()->type == 'STAFF')	
+								<a href='{!! url('/viewRecords'); !!}'>View Records</a>
+							@endif
+							@endif
 							<a href='{!! url('/staff'); !!}'>Staff</a>
 							<a href='{!! url('/contact'); !!}'>Contact</a>
 							@show			

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Animals;
+use App\Staff;
+use App\adoption_records;
 use Illuminate\Http\Request;
 use DB;
 
@@ -16,6 +18,14 @@ class DisplayPet extends Controller
      */
     function displayAnimal($id) {
     	$animal = DB::table('animals')->where('id', $id)->first();
-    	return view('petDisplay', ['animal' => $animal]);
+    	$images = DB::table('images')->where('ref_id', $id)->where('ref_type', 'PET')->get();
+    	return view('petDisplay', ['animal' => $animal, 'images' => $images]);
+	}
+	
+	function displayRecords(){
+		  $staffdb = DB::table('staff');
+    	  $animaldb = DB::table('animals');
+    	  $adoptionRecordsdb = DB::table('adoption-_records');
+    	  return view('viewRecords', ['animaldb' => $animaldb, 'adoptionRecordsdb'=>$adoptionRecordsdb, 'staffdb'=>$staffdb]);
 	}
 }

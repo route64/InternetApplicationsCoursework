@@ -26,6 +26,8 @@ Route::get('/animals', function(){
 
 Route::get('animal-display/{id}', 'DisplayPet@displayAnimal');
 
+Route::get('viewRecords', 'DisplayPet@displayRecords');
+
 Route::get('/contact', function(){
 	return view('contact');
 });

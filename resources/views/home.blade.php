@@ -18,8 +18,9 @@
                             {{ session('status') }}
                         </div-->
                     @endif
-                    <h2 style="text-align: center;">Adoption Applications</h2>
-						<?php $records = $adoptionRecordsdb->where('adopter', '=', Auth::user()->username)->get() ?>
+                   
+                   <h2 style="text-align: center;">Adoption Applications</h2>
+						<?php $records = $adoptionRecordsdb->where('adopter', '=', Auth::user()->username) ?>
 						@if ($records != '[]')						  
 						  	<table id="userApplicationsTable">
 						  		<thead>
@@ -31,13 +32,19 @@
 						  		<tbody>
 										@foreach($records as $record)
 										<tr>
-											<?php $animalrecord = $animaldb->where('id', '=', $record->adoptee_id)->get() ?>
+											
 											<td>{{ $record->ref_id }}</td>
-											<td> @foreach($animalrecord as $ar) {{ $ar->name  }}@endforeach</td>
+											<td> 
+												<?php $animal = $animaldb->where('id', '=', $record->adoptee_id) ?>
+												@foreach($animal as $an)
+													{{$an->name}}
+												@endforeach
+											</td>
 											<td>{{ $record->status }}</td>
 											<td>{{ $record->created_at }}</td>
 										</tr>
-										@endforeach						  		
+										@endforeach
+															  		
 						  		</tbody>
 						  	</table>
 						@else
