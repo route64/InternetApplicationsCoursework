@@ -1,4 +1,6 @@
-@extends('layouts.master')
+<!--Information about te staff wit te option to edit information about yourself if you are staff-->
+@extends('layouts.app') 
+if(Aut)
 
 
 @section('title', 'contact')

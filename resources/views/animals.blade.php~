@@ -19,7 +19,7 @@
 		<tbody>
 			@foreach($animals as $key => $animal)
 				<tr id='test' >
-					<td><a href="{{ url('display-animal', $animal->id) }}">{{$animal->name}}</a></td>
+					<td><a href="{{ url('animal-display', $animal->id) }}">{{$animal->name}}</a></td>
 					<td>{{$animal->DOB}}</td>
 					<td>{{$animal->species}}</td>
 					<td>{{$animal->description}}</td>

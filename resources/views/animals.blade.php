@@ -18,7 +18,7 @@
 		</thead>
 		<tbody>
 			@foreach($animals as $key => $animal)
-				<tr id='test' >
+				<tr>
 					<td><a href="{{ url('animal-display', $animal->id) }}">{{$animal->name}}</a></td>
 					<td>{{$animal->DOB}}</td>
 					<td>{{$animal->species}}</td>

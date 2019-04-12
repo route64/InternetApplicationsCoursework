@@ -47,6 +47,7 @@
 							@if(Auth::check())
 							@if (Auth::user()->type == 'STAFF')	
 								<a href='{!! url('/viewRecords'); !!}'>View Records</a>
+								<a href='{!! url('/newRecord'); !!}'>New Record</a>
 							@endif
 							@endif
 							<a href='{!! url('/staff'); !!}'>Staff</a>

@@ -7,6 +7,21 @@
 @section('content')
 	 <!--Check user is staff and if not redirect-->
 	 @if(Auth::user()->type == 'STAFF')
+	 <?php  function approveApplication($ref_id){
+				$date = new DateTime();
+				try{
+					DB::table('adoption-_records')->where('ref_id', $ref_id)->update(
+					['updated_at'=> $date,
+					'status'=>'APPROVED']);
+					
+					print '<script>alert("Application Approved!")</script>'; 
+				}
+				catch(Exception $e){
+					print '<script>alert("Error! check application not already approved")</script>';				
+				}	
+			 	
+				
+			}?>
 	 	<table class="col-sm-offset-1 col-sm-10" id="adoption-records-table-staff-view">
 	 		<thead>
 				<th class="col-sm-2">Reference ID</th>
@@ -26,31 +41,14 @@
 					</td>
 	 				<td>{{ $record->status }}</td>
 	 				<td>{{ $record->created_at }}</td>
-	 				<td><form method="GET"><button name="submit" class="btn">Approve</button><form>
-	 					@if (isset($_GET['submit']))
-							{{approveApplication($record->ref_id)}}	
-						@endif
+	 				<td><a href='{{ url('/adoption-record', $record->ref_id) }}' ><button class="btn">View Details</button></a>
 	 				</td>
 	 			</tr>
 				@endforeach
 	 		</tbody>
 	 	</table>
 	 	
-	 	<?php  function approveApplication($ref_id){
-				$date = new DateTime();
-				try{
-					DB::table('adoption-_records')->where('ref_id', $ref_id)->update(
-					['updated_at'=> $date,
-					'status'=>'APPROVED']);
-					
-					print '<script>alert("Application Approved!")</script>'; 
-				}
-				catch(Exception $e){
-					print '<script>alert("Error! check application not already approved")</script>';				
-				}	
-			 	
-				
-			}?>
-	 @else	 
+	 @else
+	 <div id="access-denied">Access Denied</div> 
 	 @endif
 @endsection

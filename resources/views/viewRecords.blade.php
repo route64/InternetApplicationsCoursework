@@ -41,17 +41,14 @@
 					</td>
 	 				<td>{{ $record->status }}</td>
 	 				<td>{{ $record->created_at }}</td>
-	 				<td><form method="GET"><button name="submit" class="btn">Approve</button><form>
-	 					@if (isset($_GET['submit']))
-							{{approveApplication($record->ref_id)}}	
-						@endif
+	 				<td><a href='{{ url('/adoption-record', $record->ref_id) }}' ><button class="btn">View Details</button></a>
 	 				</td>
 	 			</tr>
 				@endforeach
 	 		</tbody>
 	 	</table>
 	 	
-	 	
-	 @else	 
+	 @else
+	 	<div id="access-denied">Access Denied</div> 
 	 @endif
 @endsection

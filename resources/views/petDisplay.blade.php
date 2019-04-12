@@ -14,7 +14,7 @@
 	</div>
 
 	@if(Auth::check())
-		
+		@if(Auth::user()->type == 'USER') <!--Check if viewer is a user-->
 			<form method="get">
 			<button class="btn col-sm-offset-4" onclick='' value="submit" name="submit" type="submit" id="adopt-btn" >Apply To Adopt</button>
 			</form>
@@ -40,9 +40,12 @@
 			
 		
 		
-		@if (isset($_GET['submit']))
-			{{submitApplication($animal->id)	}}	
+			@if (isset($_GET['submit']))
+				{{submitApplication($animal->id)	}}	
+			@endif
 		
+		@elseif(Auth::user()->type == 'STAFF') <!--Check if the viewer is staff-->
+			<div class="col-sm-12"><b class="col-sm-offset-2">Application to adopt by: </b></div>
 		@endif
 	@endif
 	

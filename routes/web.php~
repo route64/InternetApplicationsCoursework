@@ -25,6 +25,18 @@ Route::get('/animals', function(){
 });
 
 Route::get('animal-display/{id}', 'DisplayPet@displayAnimal');
+Route::get('adoption-record/{ref_id}', 'DisplayPet@displayApplication');
+
+Route::get('viewRecords', 'DisplayPet@displayRecords');
+
+Route::get('/newRecord', function () {
+	$animals = DB::table('animals')->get();
+	return view('newAnimal', ['animals' => $animals]);
+});
+
+Route::get('/newRecordCreated', function () {
+	return view('upload');
+});
 
 Route::get('/contact', function(){
 	return view('contact');

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="about-content col-sm-8">
+<div class="about-content col-sm-offset-2 col-sm-8">
 	<h1>About</h1>
 	<p>Welcome to my Aston Animal Sanctuary website. This website has been produced for my 'Web Applications and Techniques
 	 coursework in my second year at Aston University. This website is completely fictitious and the animals presented

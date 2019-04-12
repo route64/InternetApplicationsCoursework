@@ -22,6 +22,14 @@ class DisplayPet extends Controller
     	return view('petDisplay', ['animal' => $animal, 'images' => $images]);
 	}
 	
+	function displayApplication($ref_id){
+    	$adoptionRecord=DB::table('adoption-_records')->where('ref_id', $ref_id)->first(); //get the required record from adoption records table
+		$animals = DB::table('animals')->get();
+		$users = DB::table('users')->get();
+    	$images = DB::table('images')->get();  	
+    	return view('adoptionRecord', ['adoptionRecord' => $adoptionRecord, 'animals'=>$animals, 'users'=>$users, 'images'=>$images]);
+	}	
+	
 	function displayRecords(){
 		  $staffdb = DB::table('staff')->get();
     	  $animaldb = DB::table('animals')->get();
