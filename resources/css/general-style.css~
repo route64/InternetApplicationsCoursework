@@ -4,9 +4,10 @@
 	text-align: center;
 }
 
-#logged-out-message{
+#logged-out-message, #access-denied{
 	text-align: center;
 	font-style: italic;
+	font-weight: bolder;
 }
 
 #sidebar {
@@ -145,7 +146,6 @@ input[type="text"], input[type="date"] {
 }
 #new-animal-desc {
 	height: 120px;
-	text-align: left;
 }
 #upload-new-record{
 	width: 100px;

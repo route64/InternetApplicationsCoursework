@@ -7,10 +7,22 @@
 		<p id="animal-desc"><b>Description:</b> {{$animal->description}}</p><br/>
 	</div>
 	<div class="col-sm-4" id="image-display">
-		<img class="col-sm-12" id='image' src="{{'../' . $images[0]->image_location}}" alt="{{$images[0]->source}}">
-	
-		<button class="btn col-sm-offset-2 col-sm-2" id='previous' onclick='previous()'>Previous</button>
-		<button class="btn col-sm-offset-4 col-sm-2" id="next" onclick='nextImage()'>Next</button>
+		@if ($next_image = Session::get('next_image'))
+			<img class="col-sm-12" name="display" id='image' src="{{'../' . $next_image->image_location}}" alt="{{$next_image->source}}">
+		@else
+			<img class="col-sm-12" name="display" id='image' src="{{'../' . $image->image_location}}" alt="{{$image->source}}">
+		@endif
+		
+			<form action="{{ route('image.next.post', [$animal->id, $image->image_id]) }}" method="POST" enctype="multipart/form-data">
+		
+      	@csrf
+      		{{Session::get('image_num')}}
+				<button class="btn col-sm-offset-4 col-sm-2" name="back" id="back">Previous</button>
+				
+				@if(!Session::get('last_image'))
+				<button class="btn col-sm-offset-4 col-sm-2" name="next" id="next">Next</button>
+				@endif
+			</form>
 	</div>
 
 	@if(Auth::check())
@@ -51,20 +63,3 @@
 	
 @endsection
 	
-@section('scripts')
-<script type="text/javascript">
-	var images = [
-   	@foreach($images as $key => $image)
-      	{{'../'.$image->image_location}}
-      @endforeach
-   ];
-
-	var imageIndex = 0;
-			
-	function previous() {
-		imageIndex = (imageIndex + images.length -1) % (images.length);
-		document.getElementById('image').src = images[imageIndex];
-	}	
-  
-</script>
-@endsection

@@ -4,9 +4,11 @@
 	text-align: center;
 }
 
-#logged-out-message{
+#logged-out-message, #access-denied{
 	text-align: center;
 	font-style: italic;
+	font-weight: bolder;
+	font-size: 150%;
 }
 
 #sidebar {

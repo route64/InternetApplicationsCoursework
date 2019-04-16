@@ -35,13 +35,7 @@ class ImagesTableSeeder extends Seeder
         DB::table('images')->insert([
 				'ref_id'=> 2,
 				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/SyrianHamster_lg_Tony2.jpg',
-				'source' => 'https://www.flickr.com/search/?text=hamster'         
-        ]);
-        DB::table('images')->insert([
-				'ref_id'=> 2,
-				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/SyrianHamster_lg_Tony3.jpg',
+				'image_location' => '../resources/images/Pets/SyrianHamster_sm_Tony3.jpg',
 				'source' => 'https://www.flickr.com/search/?text=hamster'         
         ]);
         

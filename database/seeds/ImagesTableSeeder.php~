@@ -35,13 +35,13 @@ class ImagesTableSeeder extends Seeder
         DB::table('images')->insert([
 				'ref_id'=> 2,
 				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/SyrianHamster_lg_Tony2.jpg',
+				'image_location' => '../resources/images/Pets/SyrianHamster_sm_Tony3.jpg',
 				'source' => 'https://www.flickr.com/search/?text=hamster'         
         ]);
         DB::table('images')->insert([
 				'ref_id'=> 2,
 				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/SyrianHamster_lg_Tony3.jpg',
+				'image_location' => '../resources/images/Pets/SyrianHamster_sm_Tony3.jpg',
 				'source' => 'https://www.flickr.com/search/?text=hamster'         
         ]);
         
@@ -61,13 +61,13 @@ class ImagesTableSeeder extends Seeder
 		  DB::table('images')->insert([
 				'ref_id'=> 4,
 				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/GermanShephard_Giles1.jpg',
+				'image_location' => '../resources/images/Pets/GermanShepherd_Giles1.jpg',
 				'source' => 'Photo by K Zoltan from Pexels'         
         ]);
         DB::table('images')->insert([
 				'ref_id'=> 4,
 				'ref_type' => 'PET',
-				'image_location' => '../resources/images/Pets/GermanShephard_Giles2.jpg',
+				'image_location' => '../resources/images/Pets/GermanShepherd_Giles2.jpg',
 				'source' => 'Photo by K Zoltan from Pexels'         
         ]);
         

@@ -82,9 +82,9 @@
         </form>
       </div>
 	 </div>
-	 @else
-	 <!-- Not staff so should not be viewing this page-->
-	 <div id="access-denied">Access Denied</div>
-	 @endif
 @endif
+@else
+	 <!-- Not staff so should not be viewing this page-->
+	 <div id="access-denied"><img style="border: solid 3px blue;" src="../resources/images/messages/accessDenied.png" alt="Access Denied"></div>
+	 @endif
 @endsection

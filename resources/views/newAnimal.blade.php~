@@ -17,7 +17,7 @@
 
         <div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong>{{ $message }}</strong>
+                <strong>YAY</strong>
         </div>
 
         <img src="images/{{ Session::get('image') }}">
@@ -58,7 +58,7 @@
             		</select>
             	</div>
             	<div class="row col-sm-12">
-            		<b class="col-sm-2">Description: </b><textarea type="text" name="desc" id="new-animal-desc" class="col-sm-6 form-control" required>
+            		<b class="col-sm-2">Description: </b><textarea type="text" name="desc" id="new-animal-desc" class="col-sm-6 form-control" required></textarea>
             	</div>
                 <div class="row col-sm-12" style="height: 40px;">
                     <b class="col-sm-2">Primary Image: </b><input type="file" id="primary-image-input" style="height: 30px;" name="image" class="col-sm-2 form-control" required>               
@@ -82,9 +82,9 @@
         </form>
       </div>
 	 </div>
-	 @else
-	 <!-- Not staff so should not be viewing this page-->
-	 <div id="access-denied">Access Denied</div>
-	 @endif
 @endif
+@else
+	 <!-- Not staff so should not be viewing this page-->
+	 <div id="access-denied"><img style="border: solid 3px blue;" src="../resources/images/messages/accessDenied.png" alt="Access Denied"></div>
+	 @endif
 @endsection

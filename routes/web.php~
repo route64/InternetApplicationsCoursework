@@ -24,15 +24,16 @@ Route::get('/animals', function(){
 	return view('animals', ['animals' => $animals]);
 });
 
-Route::get('animal-display/{id}', 'DisplayPet@displayAnimal');
+Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal')->name('image.navigate');
+//Route::post('/animal-display/{animal_id}{image_id}', 'DisplayPet@previousImagePost')->name('image.previous.post');
+Route::post('/animal-display/{animal_id}{image_id}{direction}', 'DisplayPet@nextImagePost')->name('image.next.post');
+
 Route::get('adoption-record/{ref_id}', 'DisplayPet@displayApplication');
 
-Route::get('viewRecords', 'DisplayPet@displayRecords');
+Route::get('viewRecords', 'DisplayPet@displayRecords');//, function () {
 
-Route::get('/newRecord', function () {
-	$animals = DB::table('animals')->get();
-	return view('newAnimal', ['animals' => $animals]);
-});
+Route::get('/newRecord', 'ImageUploadController@imageUpload')->name('image.upload');
+Route::post('/newRecord', 'ImageUploadController@imageUploadPost')->name('image.upload.post');
 
 Route::get('/newRecordCreated', function () {
 	return view('upload');
