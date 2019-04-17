@@ -26,7 +26,7 @@ Route::get('/animals', function(){
 
 Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal')->name('image.navigate');
 //Route::post('/animal-display/{animal_id}{image_id}', 'DisplayPet@previousImagePost')->name('image.previous.post');
-Route::post('/animal-display/{animal_id}{image_id}{direction}', 'DisplayPet@nextImagePost')->name('image.next.post');
+Route::post('/animal-display/{animal_id}{image_id}', 'DisplayPet@nextImagePost')->name('image.next.post');
 
 Route::get('adoption-record/{ref_id}', 'DisplayPet@displayApplication');
 

@@ -13,7 +13,7 @@
 			<img class="col-sm-12" name="display" id='image' src="{{'../' . $image->image_location}}" alt="{{$image->source}}">
 		@endif
 		
-			<form action="{{ route('image.next.post', [$animal->id, $image->image_id]) }}" method="POST" enctype="multipart/form-data">
+			<form action="{{ route('image.next.post', [$image->image_id]) }}" method="POST" enctype="multipart/form-data">
 		
       	@csrf
       		{{Session::get('image_num')}}

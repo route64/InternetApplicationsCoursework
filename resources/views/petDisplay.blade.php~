@@ -8,9 +8,7 @@
 	</div>
 	<div class="col-sm-4" id="image-display">
 		@if ($next_image = Session::get('next_image'))
-		{{  try{  }}
 			<img class="col-sm-12" name="display" id='image' src="{{'../' . $next_image->image_location}}" alt="{{$next_image->source}}">
-		{{  } catch(Exception e){}  }}		
 		@else
 			<img class="col-sm-12" name="display" id='image' src="{{'../' . $image->image_location}}" alt="{{$image->source}}">
 		@endif

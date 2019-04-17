@@ -40,28 +40,28 @@ class DisplayPet extends Controller
 	/* 
 	 * Pass the animal and current image id to the function
 	 */
-	public function nextImagePost($animal_id, $image_id){
-		$animal = DB::table('animals')->where('id', $animal_id)->first();
+	public function nextImagePost($image_id){
+		$animal_id = DB::table('images')->where('image_id', $image_id)->first();
 		//Get all the image ids for the images of this animal
-		$image_ids = DB::table('images')->where('ref_id', $animal_id)->where('ref_type', 'PET')->get('image_id');
+		$image_ids = DB::table('images')->where('ref_id', 1)->where('ref_type', 'PET')->get('image_id');
 		
 		//set the new image id to one above the previous
 		$current_image_num = 0;
-		$count = -1;
+		$count = 0;
 		$first_image=1;
 		//Iterate through all the image ids for this animal
 		foreach($image_ids as $im_id){
-			$count += 1;
 			if($im_id == $image_id){
 				//If the current image id matches the image id provided then set $current_image equal to the current $count value
 				$current_image_num = $count;			
 			}
+			$count += 1;
 		}
 
-		//$new_image = DB::table('images')->where('image_id', $image_ids[0]->image_id)->first();
+		$new_image =0; //DB::table('images')->where('image_id', $image_ids[0]->image_id)->first();
 
 		if (isset($_POST['next'])){
-	   	if($current_image_num <= $count){
+	   	if($current_image_num+1 <= $count){
 	   		$current_image_num = $current_image_num+1;
 			//Get the next image for this animal
 				$image_id = $image_ids[$current_image_num]->image_id;
@@ -94,7 +94,7 @@ class DisplayPet extends Controller
 		}
 		return back()->with('last_image', $last_image)->with('first_image', $first_image)
 				->with('next_image', $new_image)
-				->with('image_num', $current_image_num);
+				->with('image_num', $animal_id->ref_id);
 	}
 	
 
