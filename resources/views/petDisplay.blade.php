@@ -7,20 +7,19 @@
 		<p id="animal-desc"><b>Description:</b> {{$animal->description}}</p><br/>
 	</div>
 	<div class="col-sm-4" id="image-display">
+		<!--If a button is pressed (next or previous), get the new image-->
 		@if ($next_image = Session::get('next_image'))
-			<img class="col-sm-12" name="display" id='image' src="{{'../' . $next_image->image_location}}" alt="{{$next_image->source}}">
+			<img class="col-sm-12" name="display" style="max-height: 300px;" id='image' src="{{'../' . $next_image->image_location}}" alt="{{$next_image->source}}">
 		@else
-			<img class="col-sm-12" name="display" id='image' src="{{'../' . $image->image_location}}" alt="{{$image->source}}">
+			<img class="col-sm-12" name="display" style="max-height: 300px;" id='image' src="{{'../' . $image->image_location}}" alt="{{$image->source}}">
 		@endif
 		
-			<form action="{{ route('image.next.post', [$image->image_id]) }}" method="POST" enctype="multipart/form-data">
-		
+			<form class="col-sm-12" action="{{ route('image.next.post', [$image->image_id]) }}" method="POST" enctype="multipart/form-data">
       	@csrf
-      		{{Session::get('image_num')}}
-				<button class="btn col-sm-offset-4 col-sm-2" name="back" id="back">Previous</button>
+				<button class="btn col-sm-2" name="back" id="back">Previous</button>
 				
 				@if(!Session::get('last_image'))
-				<button class="btn col-sm-offset-4 col-sm-2" name="next" id="next">Next</button>
+					<button class="btn col-sm-offset-8 col-sm-2" name="next" id="next">Next</button>
 				@endif
 			</form>
 	</div>
