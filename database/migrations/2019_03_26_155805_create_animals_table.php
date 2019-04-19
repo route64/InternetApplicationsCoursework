@@ -21,7 +21,7 @@ class CreateAnimalsTable extends Migration
             $table->date('DOB');
             $table->enum('gender', ['FEMALE', 'MALE']);
             $table->enum('species', ['BIRD', 'CAT', 'DOG', 'LIZARD', 'RABBIT', 'HAMSTER', 'GUINNEA PIG', 'FISH', 'TORTOISE', 'FARM ANIMAL']);
-            $table->string('description');
+            $table->string('description', 500);
             $table->string('primary_image_location');
             $table->boolean('adopted');
         });

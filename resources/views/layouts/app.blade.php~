@@ -33,29 +33,30 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                
-                <div id="nav-bar" class="nav-menu">
-                	<div id="nav-title">Menu</div>
-					 	<div id="nav-content">
-							@section('sidebar')
-							<a href='{!! url('/home'); !!}'>Home</a>
-							<a href='{!! url('/about'); !!}'>About</a>		
-							<a href='{!! url('/animals'); !!}'>Adopt</a>
+		<div id="nav-bar" class="nav-menu col-sm-2">
+      	
+			<div id="nav-content">
+				@section('sidebar')
+					<a href='{!! url('/home'); !!}'>Home</a>
+					<a href='{!! url('/about'); !!}'>About</a>		
+					<a href='{!! url('/animals'); !!}'>Adopt</a>
 							<!--Check if user is staff and if so allow them to view records option on nav-menu-->
-							@if(Auth::check())
-							@if (Auth::user()->type == 'STAFF')	
-								<a href='{!! url('/viewRecords'); !!}'>View Records</a>
-								<a href='{!! url('/newRecord'); !!}'>New Record</a>
-							@endif
-							@endif
-							<a href='{!! url('/staff'); !!}'>Staff</a>
-							<a href='{!! url('/contact'); !!}'>Contact</a>
-							@show			
-						</div>                
-                </div>
-                
+					@if(Auth::check())
+						@if (Auth::user()->type == 'STAFF')	
+							<a href='{!! url('/viewRecords'); !!}'>View Records</a>
+							<a href='{!! url('/newRecord'); !!}'>New Record</a>
+						@endif
+					@endif
+					<a href='{!! url('/staff'); !!}'>Staff</a>
+					<a href='{!! url('/contact'); !!}'>Contact</a>
+					
+					<a class="btn" id="back-button" href="{{ URL::previous() }}">Back</a>
+				@show			
+			</div>                
+       </div>      
+       <nav style="background-color: #8AFFCD;" class="col-sm-10 navbar navbar-expand-md navbar-light navbar-laravel">
+            <div class="container">
+
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('Aston Animal Sanctuary', 'Aston Animal Sanctuary') }}
                 </a>
@@ -103,11 +104,14 @@
                     </ul>
                 </div>
             </div>
-        </nav>
-               
-        <main class="py-4">
+        </nav>        
+        
+        <main class="py-4 col-sm-offset-1 col-sm-10">
             @yield('content')
         </main>
+    </div>
+    <div id="footer" class="col-sm-12">
+    	
     </div>
 </body>
 

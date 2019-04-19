@@ -19,10 +19,12 @@ Route::get('/about', function(){
 	return view('welcome');
 });
 
-Route::get('/animals', function(){
+/*Route::get('/animals', function(){
 	$animals = DB::table('animals')->get();
 	return view('animals', ['animals' => $animals]);
-});
+});*/
+Route::get('/animals', 'AnimalDisplayController@displayAllAnimals')->name('animals.sort');
+Route::post('/animals', 'AnimalDisplayController@sortAnimals')->name('animals.sort.post');
 
 Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal')->name('image.navigate');
 //Route::post('/animal-display/{animal_id}{image_id}', 'DisplayPet@previousImagePost')->name('image.previous.post');
@@ -48,7 +50,10 @@ Route::get('/home', function(){
 });
 
 Route::get('/staff', function(){
-	return view('staff');
+	$staff = DB::table('staff')->get();
+	$users = DB::table('users')->get();
+	$images = DB::table('images')->get();
+	return view('staff', ['staff'=>$staff, 'users'=>$users, 'images'=>$images]);
 });
 Auth::routes();
 

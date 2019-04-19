@@ -6,7 +6,7 @@
 		<p id="animal-dob"><b>DOB:</b> {{$animal->DOB}}</p><br/>
 		<p id="animal-desc"><b>Description:</b> {{$animal->description}}</p><br/>
 	</div>
-	<div class="col-sm-4" id="image-display">
+	<div class="col-sm-6" id="image-display">
 		<!--If a button is pressed (next or previous), get the new image-->
 		@if ($next_image = Session::get('next_image'))
 			<img class="col-sm-12" name="display" style="max-height: 300px;" id='image' src="{{'../' . $next_image->image_location}}" alt="{{$next_image->source}}">
