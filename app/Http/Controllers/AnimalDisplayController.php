@@ -12,10 +12,31 @@ class AnimalDisplayController extends Controller{
 		return view('animals', ['animals' => $animals]);	
 	}
 	
-	public function sortAnimals(){
-		$animals = DB::table('animals')->get();
-		//Establish which animals are being shown and retrieve only those animals
-		$showOptions = request()->show_by_species;
+	public function sortAnimals($purpose){
+		if($purpose = 'sort-animals') {
+			$animals = DB::table('animals')->get();
+			//Establish which animals are being shown and retrieve only those animals
+			$showOptions = request()->show_by_species;
+			//Establish the new order from the sort_by selection
+			$sort_by = request()->sort_by;
+			
+			$animals = $this->sortAnimalsResults($showOptions, $sort_by);
+		
+			return back()->with('animals', $animals)
+							->with('chosen_species', $showOptions)
+							->with('sorted_by', $sort_by);
+		}
+		else if($purpose = 'search_records' ){
+			if($name = request()->search_names){
+				$results = $this->searchTable($name);
+				return back()->with('animals', $results)->with('searched_for', request()->search_names);
+			}
+			return back();
+		}
+		
+	}
+	
+	private function sortAnimalsResults($showOptions, $sort_by){
 		if($showOptions == 'Cats'){
 			$animals = DB::table('animals')->where('species', 'CAT')->get();
 		}
@@ -34,9 +55,9 @@ class AnimalDisplayController extends Controller{
 		else if($showOptions == 'Rabbits'){
 			$animals = DB::table('animals')->where('species', 'RABBIT')->get();
 		}
-		
-		//Establish the new order from the sort_by selection
-		$sort_by = request()->sort_by;
+		else{
+			$animals = DB::table('animals')->get();
+		}
 		
 		if($sort_by=='DOB Descending') {
 			$animals = $animals->sortByDesc('DOB');
@@ -47,15 +68,13 @@ class AnimalDisplayController extends Controller{
 		elseif($sort_by=='Name') {
 			$animals =  $animals->sortBy('name');
 		}
-		elseif($sort_by=='Applications Ascending'){
-			$animals =  $animals;
-		}
 		
-		return back()->with('animals', $animals)
-							->with('chosen_species', $showOptions)
-							->with('sorted_by', $sort_by);	
+		return $animals;
 	}
 	
+	private function searchTable($name){
+		return DB::table('animals')->where('name', $name)->get();
+	}
 	
 	/**Used for sorting the applications apart, to view only one type, e.g. accepted, denied or pending*/
 	public function sortApplications(){

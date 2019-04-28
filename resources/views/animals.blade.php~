@@ -6,7 +6,12 @@
 @section('content')
 	<h1 id="animal-title">Animals Up For Adoption</h1>
 	<div id="animal-display-options" class="col-sm-offset-2">
-		<form action="{{ route('animals.sort.post', 'animals') }}" method="POST" enctype="multipart/form-data">
+		<form action="{{ route('animals.sort.post', 'search_records') }}" method="POST" enctype="multipart/form-data">
+		@csrf
+			<b>Name</b><input name="search_names" id="search-animals"/>
+			<button class="btn">Search</button>
+		</form>
+		<form action="{{ route('animals.sort.post', 'sort-animals') }}" method="POST" enctype="multipart/form-data">
 			@csrf
 			<?php $chosen_species = 'all'; $sorted_by = 'none'; ?>
 			@if($sortedAnimals = Session::get('animals'))
@@ -32,6 +37,9 @@
 			<button type="submit" class="btn">Apply</button>
 		</form>
 	</div>
+	@if($searched_for = Session::get('searched_for'))
+		<div class="col-sm-offset-2">Showing Results for: {{$searched_for}}</div>
+	@endif
 	<table class="col-sm-offset-2" id="animal-table">
 		<thead>
 			<tr>
@@ -45,11 +53,32 @@
 		</thead>
 		<tbody>
 			@if(Session::get('animals'))
-				<?php $animals = Session::get('animals'); ?>
+				<?php 
+					$animals = Session::get('animals');
+				?>
 			@endif
 			@foreach($animals as $key => $animal)
+			<?php
+				$date = $animal->DOB;
+						$year = date('Y', strtotime($date));
+						$month = date('F', strtotime($date));
+						$day = date('j', strtotime($date));
+						
+						if($animal->adopted == 0){ 
+							$adoption_status = "Not Adopted";
+						} else {$adoption_status =  "I'm Adopted";}
+						
+						$rowData = '<tr><td><a href="'. url('animal-display', $animal->id).'">'.$animal->name.'</a></td>
+						<td>'.$day . ' ' . $month. ' '. $year .'</td>
+						<td>'.$animal->species.'</td>
+						<td><pre>'.$animal->description.'</pre></td>
+						<td><img src='.$animal->primary_image_location.' alt="'. $animal->primary_image_location .'" ></td>
+						<td>'.$adoption_status.'</td>
+						</tr>';
+			?>
+			<!-- Guests and users can view only the animals available for adoption-->
 			@if(!$animal->adopted)
-				<tr>
+				<!--tr>
 					<td><a href="{{ url('animal-display', $animal->id) }}">{{$animal->name}}</a></td>
 					<td>
 						@php $date = $animal->DOB;
@@ -57,13 +86,34 @@
 							$month = date('F', strtotime($date));
 							$day = date('j', strtotime($date));
 						@endphp
-						{{$day . ' ' . $month. ' . $year}}
+						{{$day . ' ' . $month. ' '. $year}}
 					</td>
 					<td>{{$animal->species}}</td>
 					<td><pre>{{$animal->description}}</pre></td>
 					<td><img src={{$animal->primary_image_location}} alt="{{ $animal->primary_image_location }}" ></td>
 					<td>@php if($animal->adopted == 0){ print "Not Adopted";} else {Print "I'm Adopted";} @endphp</td>
-				</tr>
+				</tr-->
+				@php echo $rowData; @endphp
+			<!--Staff can view all the animals-->
+			@elseif(Auth::check())
+				@if(Auth::user()->type=='STAFF')
+					<!--tr>
+					<td><a href="{{ url('animal-display', $animal->id) }}">{{$animal->name}}</a></td>
+					<td>
+						@php $date = $animal->DOB;
+							$year = date('Y', strtotime($date));
+							$month = date('F', strtotime($date));
+							$day = date('j', strtotime($date));
+						@endphp
+						{{$day . ' ' . $month. ' '. $year}}
+					</td>
+					<td>{{$animal->species}}</td>
+					<td><pre>{{$animal->description}}</pre></td>
+					<td><img src={{$animal->primary_image_location}} alt="{{ $animal->primary_image_location }}" ></td>
+					<td>@php if($animal->adopted == 0){ print "Not Adopted";} else {Print "I'm Adopted";} @endphp</td>
+				</tr-->
+					@php echo $rowData; @endphp
+				@endif
 			@endif
 			@endforeach
 		</tbody>

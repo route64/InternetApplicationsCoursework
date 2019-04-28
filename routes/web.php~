@@ -23,14 +23,15 @@ Route::get('/edit', 'EditUserInfoController@display');
 Route::post('/edit/{username}', 'EditUserInfoController@updateUserInfo')->name('user.info.post');
 
 Route::get('/animals', 'AnimalDisplayController@displayAllAnimals')->name('animals.sort');
-Route::post('/animals', 'AnimalDisplayController@sortAnimals')->name('animals.sort.post');
+Route::post('/animals/{purpose}', 'AnimalDisplayController@sortAnimals')->name('animals.sort.post');
 
 //Display animal for users to submit adoption request
 Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal');
 Route::post('/animal-display/{image_id}/{option}/{user_id}', 'DisplayPet@mainController')->name('display.control.post');
 
 Route::get('viewRecords', 'DisplayPet@displayRecords');
-Route::post('viewRecords', 'AnimalDisplayController@sortAnimals')->name('adoptions.sort.post');
+Route::post('viewRecords/', 'AnimalDisplayController@sortApplications')->name('adoptions.sort.post');
+
 Route::get('/adoption-record/{ref_id}', 'DisplayPet@displayApplication');
 
 Route::get('/newRecord', 'ImageUploadController@imageUpload')->name('image.upload');
@@ -43,6 +44,7 @@ Route::get('/newRecordCreated', function () {
 Route::get('/contact', function(){
 	return view('contact');
 });
+Route::post('/contact/{field}', 'editContactDetails@EditContactInfoController')->name('info.update.post');
 
 Route::get('/home', function(){
 	return view('home');

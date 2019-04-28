@@ -58,15 +58,15 @@
             		</select>
             	</div>
             	<div class="row col-sm-12">
-            		<b class="col-sm-2">Description: </b><textarea type="text" style="font-size: 100%;" maxlength="255" name="desc" id="new-animal-desc" class="col-sm-6 form-control" required></textarea>
+            		<b class="col-sm-2">Description: </b><textarea type="text" style="font-size: 100%;" maxlength="500" name="desc" id="new-animal-desc" class="col-sm-6 form-control" required></textarea>
             	</div>
                 <div class="row col-sm-12" style="height: 40px;">
                     <b class="col-sm-2">Primary Image: </b><input type="file" id="primary-image-input" style="height: 30px;" name="image" class="col-sm-2 form-control" required>               
                 </div>
 					 <div class="row col-sm-12" style="height: 40px;">
-                   <a href="#" class="col-sm-2 btn" style="font-size: 90%;" id="more"
+                   <a href="#" class="col-sm-3 btn" style="font-size: 90%;" id="more"
                    onclick="$('#extra-images').slideToggle(function(){
-                   	$('#more').html($('.extra-images').is(':visible')?'Add Less Images':'Add More Images');});">
+                   	$('#more').html($('#extra-images').is(':visible')?'Add Less Images':'Add More Images');});">
                    	Add More Images
                    </a>                
                    <div id='extra-images' style="display: none;">

@@ -64,9 +64,9 @@
                     <b class="col-sm-2">Primary Image: </b><input type="file" id="primary-image-input" style="height: 30px;" name="image" class="col-sm-2 form-control" required>               
                 </div>
 					 <div class="row col-sm-12" style="height: 40px;">
-                   <a href="#" class="col-sm-2 btn" style="font-size: 90%;" id="more"
+                   <a href="#" class="col-sm-3 btn" style="font-size: 90%;" id="more"
                    onclick="$('#extra-images').slideToggle(function(){
-                   	$('#more').html($('.extra-images').is(':visible')?'Add Less Images':'Add More Images');});">
+                   	$('#more').html($('#extra-images').is(':visible')?'Add Fewer Images':'Add More Images');});">
                    	Add More Images
                    </a>                
                    <div id='extra-images' style="display: none;">

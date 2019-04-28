@@ -61,7 +61,8 @@ class ImageUploadController extends Controller
 			]);
 			
 			$animal_id =  DB::table('animals')->where('created_at', $date)->first()->id;
-			DB::table('animals')->where('id', $animal_id)->update(['primary_image_location'=>'../resources/images/Pets/'.$animal_id.$imageName]);
+			$imageName = $animal_id . $imageName;
+			DB::table('animals')->where('id', $animal_id)->update(['primary_image_location'=>'../resources/images/Pets/'.$imageName]);
 			
          request()->image->move(public_path('../resources/images/Pets/'), $animal_id.$imageName);			
 			

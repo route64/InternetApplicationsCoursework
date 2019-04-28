@@ -21,7 +21,6 @@ class UsersTableSeeder extends Seeder
 				'email' =>'KiwiLover64@gmail.com',
 				'address' =>'24 Brick Lane, London',
 				'post_code' => 'LN2 4BN',
-				'staff' => 0,
 				'phone_no' => '07607320129'
 						
 			]);
@@ -35,7 +34,6 @@ class UsersTableSeeder extends Seeder
 				'address' =>'24 Corporation St, Birmingham',
 				'post_code' => 'B1 7UJ',
 				'type' => 'STAFF',
-				'staff' => 1,
 				'phone_no' => '07607320129'
 						
 			]);
@@ -49,7 +47,6 @@ class UsersTableSeeder extends Seeder
 				'address' =>'13 Corporation St, Birmingham',
 				'post_code' => 'B1 7UJ',
 				'type' => 'STAFF',
-				'staff' => 1,
 				'phone_no' => '07607320129'
 						
 			]);
@@ -62,7 +59,6 @@ class UsersTableSeeder extends Seeder
 				'email' => 'lawyer63@yahoo.com',
 				'address' =>'11 Aston Street, Birmingham',
 				'post_code' => 'B4 7UJ',
-				'staff' => 0,
 				'phone_no' => '07607320129'
 						
 			]);
@@ -76,8 +72,20 @@ class UsersTableSeeder extends Seeder
 				'address' =>'9 Bloomsbury Walk, Birmingham',
 				'post_code' => 'B6 5UH',
 				'type' => 'STAFF',
-				'staff' => 1,
 				'phone_no' => '07607320129'
+						
+			]);
+			//id=6
+			DB::table('users')->insert([
+				'title'=>'MISS',
+				'name'=>'contact details',
+				'username'=>'boss',
+				'password' => Hash::make('iAmRoot'),
+				'email' =>'gowens1@aston-sanctuary.co.uk',
+				'address' =>'Aston University, Aston Triangle, Birmingham',
+				'post_code' => 'B4 7ET',
+				'type' => 'STAFF',
+				'phone_no' => '01212044444'
 						
 			]);
     }

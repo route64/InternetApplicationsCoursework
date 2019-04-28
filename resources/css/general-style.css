@@ -57,6 +57,7 @@ body {
 
 .btn {
 	background-color: #5499c7 ;
+	border: 2px outset;
 	font-size: 100%;
 	color: black;
 	min-width: 100px;

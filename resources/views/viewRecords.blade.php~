@@ -6,6 +6,7 @@
 
 @section('content')
 	 <!--Check user is staff and if not redirect-->
+	 @if(Auth::check())
 	 @if(Auth::user()->type == 'STAFF')
 	 <?php  function approveApplication($ref_id){
 				$date = new DateTime();
@@ -21,7 +22,7 @@
 				}			
 			}?>
 		<div class="col-sm-10 col-sm-offset-1">
-			<form	action="{{ route('adoptions.sort.post') }}" 
+			<form	action="{{ route('adoptions.sort.post', 'records_sort') }}" 
 			method="POST" enctype="multipart/form-data">
 			@csrf
 			<!--Set the default values to all and none, for before any options are chosen-->
@@ -68,7 +69,7 @@
 				@endforeach
 	 		</tbody>
 	 	</table>
-	 	
+	 	@endif
 	 @else
 	 	<div id="access-denied">Access Denied</div> 
 	 @endif

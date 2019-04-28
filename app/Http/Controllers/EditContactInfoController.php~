@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Users;
+use Illuminate\Http\Request;
+use DB;
+use DateTime;
+
+class EditContactInfoController extends Controller
+{
+	public function editContactDetails($field){
+		if($field == 'address'){
+			request()->validate([
+				'address' => ['required','string', 'max:255'],
+            'post_code' => ['required', 'string', 'max:10'],
+           ]);
+			
+			$this->editField($field, request()->address);
+			$this->editField('post_code', request()->post_code);
+		}
+		if($field == 'phone_no'){
+			request()->validate([
+				'phone_no' => ['required', 'min:11', 'max:15'],
+			]);
+			if(is_numeric(request()->phone_no)){
+				$this->editField($field, request()->phone_no);
+			}else {
+				$error = 'Phone number must be numeric only';
+			}
+		}
+		if($field == 'email'){
+			request()->validate([
+				'email' => ['required', 'string', 'email', 'max:255'],
+			]);
+			$this->editField($field, request()->email);
+		}
+		return back();
+	}
+	private function editField($field, $new_data) {
+			DB::table('users')->where('username', 'boss')->update([
+				$field => $new_data,
+				'updated_at'=> new DateTime()
+			]);
+	}
+}
+?>

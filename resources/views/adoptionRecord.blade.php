@@ -33,11 +33,11 @@
 		<button name="deny-application" id="deny-application-btn" class="col-md-offset-1 btn">Deny Application</button>
 	</form>
 	@else
-		<b class="col-sm-12" id="application-status" @if($adoptionRecord->status=='ACCEPTED') style="background:green;" @else style="background:red;" @endif>APPLICATION {{$adoptionRecord->status}}</b>
+		<b class="col-sm-10 col-sm-offset-2" id="application-status" @if($adoptionRecord->status=='ACCEPTED') style="background:green;" @else style="background:red;" @endif>APPLICATION {{$adoptionRecord->status}}</b>
 	@endif
 	<?php 
 		function approveApplication($ref_id, $animal_id){
-			
+			//Update the current record for this animal to show it has been adopted
 				DB::table('adoption-_records')->where('ref_id', $ref_id)->update([
 					'updated_at'=>new DateTime(),
 					'status' => 'ACCEPTED'			
@@ -46,7 +46,16 @@
 					'updated_at'=>new DateTime(),
 					'adopted' => '1'			
 				]);
-				print '<script>alert("Application approved!")</script>'; 
+			//Check for any other adoption requests for the same animal and set them to DENIED
+			$other_applications = DB::table('adoption-_records')->where('adoptee_id', $animal_id)->where('status', 'PENDING')->GET();
+			foreach($other_applications as $other){
+				DB::table('adoption-_records')->where('ref_id', $other->ref_id)->update([
+					'updated_at'=>new DateTime(),
+					'status'=>'DENIED'
+				]);
+			}
+			
+			print '<script>alert("Application approved!")</script>'; 
 			header("Refresh:0; url='../adoption-record/$ref_id'");
 		}
 		function denyApplication($ref_id){

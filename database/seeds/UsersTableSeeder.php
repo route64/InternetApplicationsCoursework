@@ -75,5 +75,18 @@ class UsersTableSeeder extends Seeder
 				'phone_no' => '07607320129'
 						
 			]);
+			//id=6
+			DB::table('users')->insert([
+				'title'=>'MISS',
+				'name'=>'contact details',
+				'username'=>'boss',
+				'password' => Hash::make('iAmRoot'),
+				'email' =>'reception@aston-sanctuary.co.uk',
+				'address' =>'Aston University, Aston Triangle, Birmingham',
+				'post_code' => 'B4 7ET',
+				'type' => 'STAFF',
+				'phone_no' => '01212044444'
+						
+			]);
     }
 }
