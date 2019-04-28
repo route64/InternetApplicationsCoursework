@@ -47,8 +47,6 @@ class ImageUploadController extends Controller
 		  $description = request()->desc;
 		  $gender = request()->gender;
 		  $species = request()->species;
-		  
-        request()->image->move(public_path('../resources/images/Pets/'), $imageName);
 			
 			$date = new DateTime();
 			DB::table('animals')->insert([
@@ -58,11 +56,14 @@ class ImageUploadController extends Controller
 				'DOB'=>$dob,
 				'description'=>$description,
 				'species'=>$species,
+				'primary_image_location'=>'temp',
 				'adopted'=>0
 			]);
 			
 			$animal_id =  DB::table('animals')->where('created_at', $date)->first()->id;
-			DB::table('animals')->update(['primary_image_location'=>'../resources/images/Pets/'.$animal_id.$imageName]);
+			DB::table('animals')->where('id', $animal_id)->update(['primary_image_location'=>'../resources/images/Pets/'.$animal_id.$imageName]);
+			
+         request()->image->move(public_path('../resources/images/Pets/'), $animal_id.$imageName);			
 			
 			DB::table('images')->insert([
 				'created_at'=> $date,
@@ -73,7 +74,7 @@ class ImageUploadController extends Controller
 			]);
 	
 			if(request()->image2 != null) {
-				$image2Name = $animal_id . $name . '2'.request()->image2->getClientOriginalExtension();
+				$image2Name = $animal_id . $name . '2'. '.' . request()->image2->getClientOriginalExtension();
 				request()->image2->move(public_path('../resources/images/Pets/'), $image2Name);
 				DB::table('images')->insert([
 				'created_at'=> $date,

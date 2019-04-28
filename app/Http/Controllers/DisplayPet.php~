@@ -7,6 +7,7 @@ use App\Staff;
 use App\adoption_records;
 use Illuminate\Http\Request;
 use DB;
+use DateTime;
 
 class DisplayPet extends Controller
 {
@@ -37,65 +38,110 @@ class DisplayPet extends Controller
     	  return view('viewRecords', ['animaldb' => $animaldb, 'adoptionRecordsdb'=>$adoptionRecordsdb, 'staffdb'=>$staffdb]);
 	}
 	
-	/* 
-	 * Pass the animal and current image id to the function
-	 */
-	public function nextImagePost($image_id){
-		$animal_id = DB::table('images')->where('image_id', $image_id)->first();
-		//Get all the image ids for the images of this animal
-		$image_ids = DB::table('images')->where('ref_id', 1)->where('ref_type', 'PET')->get('image_id');
-		
-		//set the new image id to one above the previous
-		$current_image_num = 0;
-		$count = 0;
-		$first_image=1;
-		//Iterate through all the image ids for this animal
-		foreach($image_ids as $im_id){
-			if($im_id == $image_id){
-				//If the current image id matches the image id provided then set $current_image equal to the current $count value
-				$current_image_num = $count;			
-			}
-			$count += 1;
+	
+	public function mainController($id_one, $option, $id_two){
+		if($option == 'adopt'){
+			return $this->submitApplication($id_one, $id_two);//$id_one = animal_id and $id_two = $user_id
 		}
-
-		$new_image =0; //DB::table('images')->where('image_id', $image_ids[0]->image_id)->first();
-
-		if (isset($_POST['next'])){
-	   	if($current_image_num+1 <= $count){
-	   		$current_image_num = $current_image_num+1;
-			//Get the next image for this animal
-				$image_id = $image_ids[$current_image_num]->image_id;
-				$new_image = DB::table('images')->where('image_id', $image_id)->first();
-			}	
-			if($current_image_num==$count) {
-				$last_image=1;
-			}else {
-				$last_image=0;
-			}
+		elseif($option == 'addImage') {
+			return $this->addNewImagePost($id_one); //$id_one = animal_id	
 		}
-		
-		else if(isset($_POST['back'])){
-			if($current_image_num > 0){
-				$current_image_num = $current_image_num-1; //reduce current_image by 1
-				$new_image = DB::table('images')->where('image_id', $image_ids[$current_image_num]->image_id)->get();
-			}		
-		}
-		
-		if($current_image_num == $count){
-			$last_image = 1;
+		elseif($option == 'changeImage') {
+			return $this->changeImagePost($id_one, $id_two); //$id_one = animal_id and $id_two = image_id
 		}
 		else {
-			$last_image=0;
+			return back();		
 		}
-		if($current_image_num == 0){
-			$first_image = 1;			
-		}else {
-			$first_image = 0;
+	}
+	/* 
+	 * Pass the current image id to the function
+	 */
+	public function changeImagePost($animal_id, $image_num){
+		//Get an array of all the images for this animal
+		$all_images = DB::table('images')->where('ref_id', $animal_id)->where('ref_type', 'PET')->get();
+		$first_image = false;
+		$last_image = false;
+		
+		if (isset($_POST['next'])){
+			if($image_num < count($all_images)){
+				$image_num ++;
+			}
 		}
+		elseif(isset($_POST['back'])) {
+			if($image_num > 0) {
+				$image_num --;
+			}
+		}
+		
+		$first_image = ($image_num == 0);
+		$last_image = ($image_num == count($all_images));
+		$new_image = $all_images[$image_num-1];
+		
 		return back()->with('last_image', $last_image)->with('first_image', $first_image)
 				->with('next_image', $new_image)
-				->with('image_num', $animal_id->ref_id);
+				->with('current_image', $image_num);
 	}
 	
-
+	public function addNewImagePost($animal_id){
+		$image_ids = DB::table('images')->where('ref_id', $animal_id)->get();
+		$animal = DB::table('animals')->where('id', $animal_id)->first();
+		
+		$message = '';
+		
+		$validation = request()->validate([
+            'new_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);		
+		
+		if(isset($_POST['add_image'])) {
+			$image_num = count($image_ids)+1;
+			$imageName = $animal_id . $animal->name . $image_num .  '.' .request()->new_image->getClientOriginalExtension();
+			//Move the image in to the file system
+			request()->new_image->move(public_path('../resources/images/Pets/'), $imageName);
+			
+			DB::table('images')->insert([
+				'created_at'=> new DateTime(),
+				'ref_type'=>'PET',
+				'ref_id'=> $animal_id,
+				'image_location'=>'../resources/images/Pets/'.$imageName,
+				'source'=>'Uploaded from website'
+			]);
+			
+			$message = 'Image Added';
+		}
+		
+		return back()->with('message', $message)->with('validation', $validation);
+	}	
+	
+	/* This function is called to submit an application to the adoption-_records table using an insert
+	*  statement.
+	*	DateTime() is required to set the 'created_at' field.
+	*	ref_id is created from combining the user_id and animal_id.
+	*	If an application has previously been sent, for instance if they have managed to click the button
+	*	twice, then an alert message will pop up telling them that two applications cannot be submitted
+	*	by the same person for the same animal.
+	*/
+	public function submitApplication($animalID, $user_id){
+		$applicationSent = 0;
+		$message = '<script>alert("Application previously sent! You cannot send two applications for the same animal.")</script>';				
+		
+		if (isset($_POST['submit_application'])){
+		$date = new DateTime();
+		try{
+			DB::table('adoption-_records')->insert(
+			['created_at'=> $date,
+			'ref_id'=>$user_id . $animalID ,
+			'adopter'=>DB::table('users')->where('id', $user_id)->first()->username , 
+			'adoptee_id'=>$animalID, 
+			'status'=>'PENDING']);
+				
+			$applicationSent = 1;
+			$message = '<script>alert("Application sent!")</script>';
+		}
+		catch(Exception $e){
+			$message = '<script>alert("Application previously sent! Cannot send two applications for the same animal.")</script>';				
+		}
+		}
+		
+		return back()->with('application_sent', $applicationSent)->with('message', $message);
+	}
 }

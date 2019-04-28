@@ -6,6 +6,7 @@
 
 @section('content')
 	 <!--Check user is staff and if not redirect-->
+	 @if(Auth::check())
 	 @if(Auth::user()->type == 'STAFF')
 	 <?php  function approveApplication($ref_id){
 				$date = new DateTime();
@@ -18,10 +19,23 @@
 				}
 				catch(Exception $e){
 					print '<script>alert("Error! check application not already approved")</script>';				
-				}	
-			 	
-				
+				}			
 			}?>
+		<div class="col-sm-10 col-sm-offset-1">
+			<form	action="{{ route('adoptions.sort.post') }}" 
+			method="POST" enctype="multipart/form-data">
+			@csrf
+			<!--Set the default values to all and none, for before any options are chosen-->
+			
+			<b>Show</b> <select name="show_by">
+				<option @if(Session::get('option') == 'All') selected="selected" @endif id="adopted-and-not" >All</option>
+				<option @if(Session::get('option') == 'Accepted') selected="selected" @endif id="adopted-sort" >Accepted</option>
+				<option @if(Session::get('option') == 'Declined') selected="selected" @endif id="not-adopted-sort" >Declined</option>
+				<option @if(Session::get('option') == 'Pending') selected="selected" @endif id="not-adopted-sort" >Pending</option>
+			</select>
+			<button type="submit" class="btn">Apply</button>
+			</form>
+		</div>
 	 	<table class="col-sm-offset-1 col-sm-10" id="adoption-records-table-staff-view">
 	 		<thead>
 				<th class="col-sm-2">Reference ID</th>
@@ -31,23 +45,31 @@
 				<th class="col-sm-2">Approve</th>	
 	 		</thead>
 	 		<tbody>
+	 			@if(Session::get('adoptionRecords'))
+					<?php $adoptionRecordsdb = Session::get('adoptionRecords') ?>
+				@endif
+				
 	 			@foreach($adoptionRecordsdb as $key => $record)
 	 			<tr>
+	 			<?php $animals = $animaldb->where('id', '=', $record->adoptee_id) ?>
+				
+	 			@foreach($animals as $animal)
+				@if($animal->id == $record->adoptee_id)
 	 				<td>{{ $record->ref_id }}</td>
-	 				<td><?php $animal = $animaldb->where('id', '=', $record->adoptee_id) ?>
-						@foreach($animal as $an)
-							{{$an->name}}
-						@endforeach
+	 				<td>
+						{{$animal->name}}
 					</td>
 	 				<td>{{ $record->status }}</td>
 	 				<td>{{ $record->created_at }}</td>
 	 				<td><a href='{{ url('/adoption-record', $record->ref_id) }}' ><button class="btn">View Details</button></a>
 	 				</td>
+				@endif
+				@endforeach
 	 			</tr>
 				@endforeach
 	 		</tbody>
 	 	</table>
-	 	
+	 	@endif
 	 @else
 	 	<div id="access-denied">Access Denied</div> 
 	 @endif

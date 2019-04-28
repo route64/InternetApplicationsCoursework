@@ -6,9 +6,36 @@
 
 @section('content')
 <div class="container">
+	<div class="col-sm-offset-1 col-sm-11">
+		<div id="user-info" class="col-sm-12">
+		@if(Auth::check())
+			@if(Auth::user()->type == 'STAFF')
+				@php
+				$profile_picture = DB::table('images')->where('ref_type', 'STAFF')->where('ref_id', Auth::user()->id)->first();
+				@endphp
+			@else
+				@php
+				$profile_picture = DB::table('images')->where('ref_type', 'USER')->where('ref_id', Auth::user()->id)->first();
+				@endphp
+			@endif
+		@endif
+			@if($profile_picture)
+				<img class="col-sm-6" style="width: 200px; height: 150px;" src="{{$profile_picture->image_location}}" alt="Image by Karen Arnold from Pixabay">
+			@else
+				<img class="col-sm-6" style="width: 200px; height: 150px;" src="../resources/images/People/cartoon-dog.jpg" alt="Image by Karen Arnold from Pixabay">
+			@endif
+			<p class="col-sm-6">			
+			<b>Name:</b> {{Auth::user()->title . ' ' . Auth::user()->name}}<br>
+			<b>Email:</b> {{Auth::user()->email}}<br>
+			<b>Phone-no:</b> {{Auth::user()->phone_no}} <br>
+			<b>Address:</b> {{Auth::user()->address}}<br>{{Auth::user()->post_code}}<br>
+			<a class="btn" href='{!! url('/edit'); !!}' style="font-size: 80%;">Edit</a>
+			</p>
+		</div>
+	</div>
 	<div style="text-align: center;" id="welcome-user">Welcome {{ Auth::user()->username }}!</div>
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-sm-offset-1 col-md-10">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -26,8 +53,10 @@
 						  		<thead>
 									<th class="col-sm-2">Reference ID</th>
 									<th class="col-sm-4">Animal Name</th>
-									<th class="col-sm-3">Status</th>
-									<th class="col-sm-3">Submitted At</th>						  		
+									<th class="col-sm-2">Status</th>
+									<th class="col-sm-2">Submitted At</th>
+									<th class="col-sm-2">Updated At</th>
+									
 						  		</thead>
 						  		<tbody>
 										@foreach($records as $record)
@@ -42,6 +71,9 @@
 											</td>
 											<td>{{ $record->status }}</td>
 											<td>{{ $record->created_at }}</td>
+											@if($record->updated_at)
+												<td>{{ $record->updated_at }}</td>
+											@endif
 										</tr>
 										@endforeach
 															  		

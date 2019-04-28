@@ -19,20 +19,19 @@ Route::get('/about', function(){
 	return view('welcome');
 });
 
-/*Route::get('/animals', function(){
-	$animals = DB::table('animals')->get();
-	return view('animals', ['animals' => $animals]);
-});*/
+Route::get('/edit', 'EditUserInfoController@display');
+Route::post('/edit/{username}', 'EditUserInfoController@updateUserInfo')->name('user.info.post');
+
 Route::get('/animals', 'AnimalDisplayController@displayAllAnimals')->name('animals.sort');
-Route::get('/animals', 'AnimalDisplayController@sortAnimals')->name('animals.sort.post');
+Route::post('/animals', 'AnimalDisplayController@sortAnimals')->name('animals.sort.post');
 
-Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal')->name('image.navigate');
-//Route::post('/animal-display/{animal_id}{image_id}', 'DisplayPet@previousImagePost')->name('image.previous.post');
-Route::post('/animal-display/{image_id}', 'DisplayPet@nextImagePost')->name('image.next.post');
+//Display animal for users to submit adoption request
+Route::get('/animal-display/{id}', 'DisplayPet@displayAnimal');
+Route::post('/animal-display/{image_id}/{option}/{user_id}', 'DisplayPet@mainController')->name('display.control.post');
 
-Route::get('adoption-record/{ref_id}', 'DisplayPet@displayApplication');
-
-Route::get('viewRecords', 'DisplayPet@displayRecords');//, function () {
+Route::get('viewRecords', 'DisplayPet@displayRecords');
+Route::post('viewRecords', 'AnimalDisplayController@sortAnimals')->name('adoptions.sort.post');
+Route::get('/adoption-record/{ref_id}', 'DisplayPet@displayApplication');
 
 Route::get('/newRecord', 'ImageUploadController@imageUpload')->name('image.upload');
 Route::post('/newRecord', 'ImageUploadController@imageUploadPost')->name('image.upload.post');

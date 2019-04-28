@@ -1,0 +1,107 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Users;
+use Illuminate\Http\Request;
+use DB;
+use DateTime;
+use Illuminate\Support\Facades\Hash;
+
+class EditUserInfoController extends Controller {
+	public function display(){
+		return view('editUserInfo');
+	}
+	
+	/**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+
+	
+	public function updateUserInfo($username) {
+   	
+   	if(isset($_POST['update_image'])){
+   		$this->updateImagesTable($username);
+   		$message = 'Image updated';
+   	}
+   	else {
+		$array = [['name', request()->name, ['string', 'max:255']],
+					['title', request()->title, ['string']],
+					['address', request()->address, ['string', 'max:255']],
+					['post_code', request()->post_code, ['string', 'max:10']],
+					['username', request()->username, ['string', 'max:255','unique:users']],
+					['phone_no', request()->phone_no, ['min:11', 'max:16']],
+					['email', request()->email, ['string', 'email', 'max:255', 'unique:users']]
+				];
+
+		$user = DB::table('users')->where('username', $username)->first();
+		$error = '';
+		
+		foreach($array as $data){
+			if($data[1]){
+				$this->updateUser($user, $data[0], $data[1], $data[2]);
+				$message = 'Changes Saved';
+			}
+		}
+		if(!$message){
+			$message = 'No changes Made';
+		}
+   	
+   	//Check if password has been changed
+   	$new_pswd = request()->password;
+   	if($new_pswd){
+   		$this->updateUser($user, 'password', Hash::make($new_pswd), ['string', 'min:8', 'confirmed']);
+   	}
+   	}
+   	return back()->with('success', $message)->with('error', '');
+   
+	}
+	
+	private function updateImagesTable($username){
+		$new_profile_pic = request()->new_profile_pic;
+		$user = DB::table('users')->where('username', $username)->first();
+		if($new_profile_pic){
+        	/*	check the profile picture for this user is null, otherwise we will just replace the 
+        	*	existing image.
+        	*/
+        	if(DB::table('images')->where('ref_type', 'USER')->where('ref_id', $user->id)->first()){
+        		DB::table('images')->where('ref_type', 'USER')->where('ref_id', $user->id)->update([
+        			'updated_at'=> new DateTime()
+        		]);
+        	}
+        	else{
+        		DB::table('images')->insert([
+        		'ref_type'=>'USER',
+        		'ref_id'=>$user->id,
+        		'image_location'=> '../resources/images/People/'.$username,
+        		'created_at'=>new DateTime(),
+        		'source' => 'user uploaded'
+        		]);
+        	}
+        	
+        	/*	Check if there is already a profile picture stored in the file system for this user, 
+        	*	and delete it if there is
+        	*/
+        	if(Storage::exists('../resources/images/People/'.$username)){
+        		Storage::delete('../resources/images/People/'.$username);
+        	}
+        	$new_profile_pic->move(public_path('../resources/images/People/'), $username);
+   	  }
+	}
+	
+	private function updateUser($user, $field, $new_data, $validation){
+		request()->validate([
+			$field => $validation
+		]);
+		try{
+			DB::table('users')->where('id', $user->id)->update([
+				$field => $new_data
+			]);
+		} catch(Exception $e){
+			$message = "Unable to update data";
+		}
+	}
+}
+?>

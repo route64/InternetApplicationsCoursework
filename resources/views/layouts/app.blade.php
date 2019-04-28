@@ -16,7 +16,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+	<link href='https://fonts.googleapis.com/css?family=Angkor' rel='stylesheet'>
+	
 	<!--Add bootstrap -->
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 		<!-- jQuery library -->
@@ -38,14 +39,18 @@
 			<div id="nav-content">
 				@section('sidebar')
 					<a href='{!! url('/home'); !!}'>Home</a>
-					<a href='{!! url('/about'); !!}'>About</a>		
-					<a href='{!! url('/animals'); !!}'>Adopt</a>
+					<a href='{!! url('/about'); !!}'>About</a>
 							<!--Check if user is staff and if so allow them to view records option on nav-menu-->
 					@if(Auth::check())
-						@if (Auth::user()->type == 'STAFF')	
-							<a href='{!! url('/viewRecords'); !!}'>View Records</a>
+						@if (Auth::user()->type == 'STAFF')			
+							<a href='{!! url('/animals'); !!}'>View All Animals</a>
+							<a href='{!! url('/viewRecords'); !!}'>View Adoption Records</a>
 							<a href='{!! url('/newRecord'); !!}'>New Record</a>
+						@else		
+							<a href='{!! url('/animals'); !!}'>Adopt</a>
 						@endif
+					@else		
+						<a href='{!! url('/animals'); !!}'>View All Animals</a>
 					@endif
 					<a href='{!! url('/staff'); !!}'>Staff</a>
 					<a href='{!! url('/contact'); !!}'>Contact</a>
@@ -54,7 +59,7 @@
 				@show			
 			</div>                
        </div>      
-       <nav style="background-color: #8AFFCD; border-radius: 15px;" class="col-sm-10 navbar navbar-expand-md navbar-light navbar-laravel">
+       <nav class="col-sm-10 navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
 
                 <a class="navbar-brand" href="{{ url('/home') }}">

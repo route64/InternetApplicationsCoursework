@@ -1,3 +1,7 @@
+*{
+	font-family: 'Angkor';
+}
+
 #header {
 	border: solid 3px;
 	border-radius: 25px;
@@ -11,6 +15,15 @@
 	font-size: 150%;
 }
 
+.line-break{
+	height: 20px;
+}
+.content{
+	background-color:  #d6eaf8;
+	border:  2px #85c1e9 ;
+	border-radius: 15px;
+}
+
 #sidebar {
 	border: solid 3px #4CAF50;
 	border-radius: 10px;
@@ -22,7 +35,7 @@
 	
 	line-height: 150%;
 	
-	background-color: #9efac9;
+	background-color: #ccf9dd;
 	height: 100%;
 }
 
@@ -37,18 +50,21 @@
 }
 
 body {
-  background: linear-gradient(#ccf9dd, #ccf9dd );
+  background: #9efac9;
   background-size: 112em 112em, 5em 5em, 3em 3em, 1em 1em;
-  
   font-size: 150%;
   }
 
 .btn {
-	background-color: green;
+	background-color: #5499c7 ;
 	font-size: 100%;
+	color: black;
+	min-width: 100px;
+	min-height: 40px;
 }
 .btn:focus,.btn:hover{
-	background-color: #336600;
+	background-color:   #5dade2;
+	border: 2px inset;
 }
 
 #userApplicationsTable td {
@@ -56,11 +72,9 @@ body {
 }
 #userApplicationsTable {
 	width: 100%;
-	font-size: 120%;
 }
 #userApplicationsTable th {
 	font-weight: bolder;
-	font-size: 130%;
 }
 
 table {
@@ -78,7 +92,7 @@ thead {
   padding-bottom: 12px;
   text-align: center;
   font-weight: bold;
-  background-color: #4CAF50;
+  background-color: #5dade2;
   color: white;
   height: 40px;
 }
@@ -98,7 +112,6 @@ tbody tr:nth-child(even){
 tbody tr:hover {background-color: #599d5d;}
 
 td {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 100%;
   text-align: center;
   padding-top: 12px;
@@ -179,4 +192,15 @@ input[type="text"], input[type="date"] {
 #staff-display .btn{
 	font-size: 100%;
 	bottom: 0;
+}
+
+img{
+	border: solid 2px  #85c1e9;
+	border-radius: 20px;
+	background-color: #85c1e9;
+}
+
+.navbar{
+	background-color: #ccf9dd;
+	border-radius: 15px;" 
 }

@@ -16,7 +16,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->increments('image_id');
             $table->integer('ref_id');
-            $table->string('ref_type');
+            $table->enum('ref_type', ['PET', 'STAFF', 'USER']);
             $table->string('image_location');
             $table->string('source');
             $table->timestamps();
