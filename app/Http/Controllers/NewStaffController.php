@@ -7,17 +7,20 @@ use Illuminate\Support\Facades\Hash;
 use DB;
 use App\Users;
 use App\Staff;
-
+/**
+*	Controller to add new staff to the staff 'users', 'staff' and 'images' databases
+*/
 class newStaffController extends Controller
 {
 	public function registerNewStaff() {
+		//Validate form data
 		request()->validate([
          'password' => ['required', 'string', 'min:8', 'confirmed'],
          'address' => ['required','string', 'max:255'],
          'post_code' => ['required', 'string', 'max:10'],
          'phone_no' => ['required', 'numeric','digits_between: 11, 15'],
 		]);
-		
+		//Get the required data from the form
 		$title = request()->title;
 		$first_name = request()->first_name;
 		$surname = request()->surname;
@@ -27,7 +30,6 @@ class newStaffController extends Controller
 		$role = request()->role;
 		$pay_scale = request()->pay_scale;
 		$DOB = request()->dob;
-		//$start_date = request()->start_date;
 		
 		$name = $first_name .' '. $surname;
 		/**To create a unique username for members of staff, take their surname, and put the first letter of
@@ -42,8 +44,10 @@ class newStaffController extends Controller
 		}
 		//email = username + sanctuary email address
 		$email = $username . "@aston-sanctuary.ac.uk";
+		
+		/*Attempt to add the new staff member to each to the databases*/
 		try{
-		DB::table('users')->insert([
+			DB::table('users')->insert([
 			'title'=>$title,
 			'name'=> $name,
 			'username' => $username,
@@ -54,11 +58,11 @@ class newStaffController extends Controller
 			'type'=>'STAFF',
 			'post_code'=>$post_code,
 			'phone_no'=>$phone_no
-		]);
+			]);
+			//Get the user id to place in the staff table
+			$user_id = DB::table('users')->where('username', $username)->first()->id;
 		
-		$user_id = DB::table('users')->where('username', $username)->first()->id;
-		
-		DB::table('staff')->insert([
+			DB::table('staff')->insert([
 			'username'=>$username,
 			'role'=>$role,
 			'pay_scale'=>$pay_scale,
@@ -66,17 +70,17 @@ class newStaffController extends Controller
 			'DOB' =>$DOB,
 			'start_date'=>request()->start,
 			'created_at'=>new DateTime(),
-		]);
-		
-		DB::table('images')->insert([
+			]);
+			//Add the staff to the images table with the default image of cartoon dog
+			DB::table('images')->insert([
 			'ref_type'=>'STAFF',
 			'ref_id' => DB::table('staff')->where('username', $username)->first()->user_id,
 			'image_location'=> "../resources/images/People/cartoon-dog.jpg",
 			'source' => 'Image from Pixels',
 			'created_at' => new DateTime(),
-		]);
-		
-		$message = "New Staff Member Registered. Username: ".$username;
+			]);
+			//Create the message with the new staff members username to display back to the user
+			$message = "New Staff Member Registered. Username: ".$username;
 		}
 		catch (Exception $e){
 			$message = "Unable To Add New User. Try Again.";
