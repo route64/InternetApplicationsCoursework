@@ -5,8 +5,8 @@
 @endsection
 @section('content')
 @if(Auth::check())
-	<h1 id="adoption-record-title">Adoption Record</h1>
-	<div id="animal-information" class="col-md-offset-1 col-md-5">
+	<h1 class="content col-sm-offset-1 col-sm-11" id="adoption-record-title">Adoption Record</h1>
+	<div id="animal-information" class="col-md-offset-1 col-md-5 content">
 		<?php $animal_id= $adoptionRecord->adoptee_id;
 		$animal = $animals->where('id', $animal_id)->first(); ?>
 		<h2>Adoptee</h2>		
@@ -16,7 +16,7 @@
 		<p><b>Species:</b> {{$animal->species}}</p><br/>
 		<p><b>Description:</b> {{$animal->description}}</p><br/>
 	</div>
-	<div id="adopter-information" class="col-md-offset-1 col-md-5">
+	<div id="adopter-information" class="col-md-offset-1 col-md-5 content">
 		<?php $username = $adoptionRecord->adopter;
 		$user = $users->where('username', $username)->first(); ?>
 		<h2>Application To Adopt By</h2>

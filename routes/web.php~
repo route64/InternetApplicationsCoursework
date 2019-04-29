@@ -44,7 +44,7 @@ Route::get('/newRecordCreated', function () {
 Route::get('/contact', function(){
 	return view('contact');
 });
-Route::post('/contact/{field}', 'editContactDetails@EditContactInfoController')->name('info.update.post');
+Route::post('/contact/{field}', 'EditContactInfoController@editContactDetails')->name('info.update.post');
 
 Route::get('/home', function(){
 	return view('home');
@@ -56,6 +56,7 @@ Route::get('/staff', function(){
 	$images = DB::table('images')->get();
 	return view('staff', ['staff'=>$staff, 'users'=>$users, 'images'=>$images]);
 });
+Route::post('/staff', 'NewStaffController@newStaff')->name('register.new.staff');
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');

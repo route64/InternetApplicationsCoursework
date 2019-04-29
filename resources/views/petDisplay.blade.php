@@ -74,6 +74,7 @@
 			@php 
 				$application = DB::table('adoption-_records')->where('ref_id', Auth::user()->id . $animal->id)->first();
 			@endphp
+			<div class="col-sm-10 col-sm-offset-3">
 			@if(Session::get('application_sent') or $application)
 				<b class="col-sm-offset-3">Application Sent</b>
 			<!-- Else check the animal has not already been adopted by someone else before displaying the adoption-->
@@ -83,6 +84,7 @@
 					<button class="btn col-sm-offset-4" type="submit" name="submit_application" >Apply To Adopt</button>			
 				</form>
 			@endif
+			</div>
 		
 		@elseif(Auth::user()->type == 'STAFF') <!--Check if the viewer is staff-->
 			<div class="col-sm-offset-2 col-sm-10">

@@ -5,8 +5,8 @@
 @endsection
 @section('content')
 @if(Auth::check())
-	<h1 id="adoption-record-title">Adoption Record</h1>
-	<div id="animal-information" class="col-md-offset-1 col-md-5">
+	<h1 class="content col-sm-offset-2 col-sm-10" id="adoption-record-title">Adoption Record</h1>
+	<div id="animal-information" class="col-md-offset-1 col-md-5 content">
 		<?php $animal_id= $adoptionRecord->adoptee_id;
 		$animal = $animals->where('id', $animal_id)->first(); ?>
 		<h2>Adoptee</h2>		
@@ -16,7 +16,7 @@
 		<p><b>Species:</b> {{$animal->species}}</p><br/>
 		<p><b>Description:</b> {{$animal->description}}</p><br/>
 	</div>
-	<div id="adopter-information" class="col-md-offset-1 col-md-5">
+	<div id="adopter-information" class="col-md-offset-1 col-md-5 content">
 		<?php $username = $adoptionRecord->adopter;
 		$user = $users->where('username', $username)->first(); ?>
 		<h2>Application To Adopt By</h2>
@@ -33,7 +33,7 @@
 		<button name="deny-application" id="deny-application-btn" class="col-md-offset-1 btn">Deny Application</button>
 	</form>
 	@else
-		<b class="col-sm-12" id="application-status" @if($adoptionRecord->status=='ACCEPTED') style="background:green;" @else style="background:red;" @endif>APPLICATION {{$adoptionRecord->status}}</b>
+		<b class="col-sm-10 col-sm-offset-2" id="application-status" @if($adoptionRecord->status=='ACCEPTED') style="background:green;" @else style="background:red;" @endif>APPLICATION {{$adoptionRecord->status}}</b>
 	@endif
 	<?php 
 		function approveApplication($ref_id, $animal_id){

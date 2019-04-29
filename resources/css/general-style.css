@@ -185,14 +185,11 @@ input[type="text"], input[type="date"] {
 }
 
 #staff-display{
-	height: 200px;
-	border: solid 2px #4CAF50;
+	height: 250px;
+	border: solid 2px #85c1e9;
 	border-radius: 15px;
-	text-align: center;
-}
-#staff-display .btn{
-	font-size: 100%;
-	bottom: 0;
+	text-align: left;
+	font-size: 90%;
 }
 
 img{

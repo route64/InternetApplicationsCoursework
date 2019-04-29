@@ -51,16 +51,16 @@
 				@csrf
 				<b class="col-sm-2">New Image</b> 
 				<input type="file" id="new_profile_pic" style="height: 30px;" name="new_profile_pic" class="col-sm-2 form-control">
-				<div class="col-sm-12"><button class="btn col-sm-4 col-sm-offset-2" name="update_image">update</button></div>
+				<div class="col-sm-12"><button class="btn col-sm-4 col-sm-offset-2" name="update_image">Save Profile<br> Picture</button></div>
 			</form>
 		</div>
 		
 		<form action="{{ route('user.info.post', Auth::user()->username) }}" method="POST" enctype="multipart/form-data">
 		@csrf
 			<div class="form-group row">
-      		<label for="title" class="col-md-4 col-form-label text-md-right">Title</label>
+      		<label for="title" class="col-md-2 col-form-label text-md-right">Title</label>
 
-         	<div class="col-md-1">
+         	<div class="col-sm-1 col-sm-offset-2">
          	 @php $title = Auth::user()->title @endphp
          		<select name="title">
             		<option value="MISS" @if($title=='MISS') selected="true"@endif>MISS</option>
@@ -74,7 +74,7 @@
 			</div>
 
      		<div class="form-group row">
-     			<label for="name" class="col-md-4 col-form-label text-md-right">Name: </label> 
+     			<label for="name" class="col-sm-2 col-form-label text-md-right">Name: </label> 
       		<i class="col-sm-2">{{ Auth::user()->name }}</i>
 				
 					<div class="col-md-3" id="name" style="display: none;" >
@@ -88,7 +88,7 @@
             	</a>
 			</div>
       	<div class="form-group row">
-      		<label for="username" class="col-md-4 col-form-label text-md-right">Username: </label> 
+      		<label for="username" class="col-sm-2 col-form-label text-md-right">Username: </label> 
       		<i class="col-sm-2">{{Auth::user()->username}}</i>
 					<div class="col-md-3" id="username" style="display: none;" >
             		<input type="text" class="form-control" name="username" >
@@ -100,17 +100,17 @@
             	</a>
 			</div>
 			<div class="form-group row">
-      		<label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label> 
-      		<i class="col-sm-3">{{Auth::user()->email}}</i>
+      		<label for="email" class="col-sm-2 col-form-label text-md-right">E-Mail Address</label> 
+      		<i class="col-sm-4" style="display: inline;" id="">{{Auth::user()->email}}</i>
 				<div class="col-md-3" id="email" style="display: none;" >
-         		<input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" >
+         		<input type="email" style="height: 30px;" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" >
 					@if ($errors->has('email'))
             	<span class="invalid-feedback" role="alert">
                	<strong>{{ $errors->first('email') }}</strong>
                	</span>
             	@endif
          	</div>
-         	<a href="#" class="col-sm-offset-1 col-sm-1 btn" style="font-size: 90%;" id="editEmail"
+         	<a href="#" class="col-sm-1 btn" style="font-size: 90%; max-height: 40px;" id="editEmail"
                    onclick="$('#email').slideToggle(function(){
                    	$('#editEmail').html($('#email').is(':visible')?'X':'Edit');});">
               	Edit
@@ -118,7 +118,7 @@
       	</div>
       
       <div class="form-group row">
-      	<label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label> 
+      	<label for="address" class="col-sm-2 col-form-label text-md-right">Address</label> 
       	<i class="col-sm-2">{{Auth::user()->address}}</i>
       	
 			<div class="col-md-3" id="address"  style="display: none;">
@@ -132,7 +132,7 @@
       </div>
                         
       <div class="form-group row">
-      	<label for="post_code" class="col-md-4 col-form-label text-md-right">Post Code</label> 
+      	<label for="post_code" class="col-sm-2 col-form-label text-md-right">Post Code</label> 
       	<i class="col-sm-2">{{Auth::user()->post_code}}</i>
 			
 			<div class="col-md-3" id="postCode" style="display: none;">
@@ -146,7 +146,7 @@
       </div>
                         
       <div class="form-group row">
-      	<label for="phone_no" class="col-md-4 col-form-label text-md-right">Phone No</label>
+      	<label for="phone_no" class="col-sm-2 col-form-label text-md-right">Phone No</label>
       	<i class="col-sm-2"> {{Auth::user()->phone_no}}</i>
 			<div class="col-md-3" id="phone_no" style="display: none;">
          	<input type="tel" class="form-control" name="phone_no">
@@ -159,13 +159,14 @@
       </div>
       
       <div class="form-group row">
-      	<a href="#" class="col-sm-offset-4 col-sm-2 btn" style="max-height:40px; font-size: 90%;" id="editPswd"
+      	<a href="#" class="col-sm-offset-4 col-sm-3 btn" style="max-height:40px; font-size: 90%;" id="editPswd"
                    onclick="$('#changePswd').slideToggle(function(){
                    	$('#editPswd').html($('#changePswd').is(':visible')?'X':'Change Password');});">
               	Change Password
       	</a>
       	
       	<div id="changePswd" class="col-sm-offset-2" style="display: none;">
+      	<div class="line-break col-sm-12"></div>
 				<div class="form-group row col-sm-12">
       			<label for="password" class="col-md-4 col-form-label text-md-right">{{ __('New Password') }}</label>
 					<div class="col-md-6">

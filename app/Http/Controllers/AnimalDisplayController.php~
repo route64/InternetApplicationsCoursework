@@ -26,7 +26,7 @@ class AnimalDisplayController extends Controller{
 							->with('chosen_species', $showOptions)
 							->with('sorted_by', $sort_by);
 		}
-		else if($purpose = 'search_records' ){
+		if($purpose = 'search-records' ){
 			if($name = request()->search_names){
 				$results = $this->searchTable($name);
 				return back()->with('animals', $results)->with('searched_for', request()->search_names);
@@ -72,31 +72,54 @@ class AnimalDisplayController extends Controller{
 		return $animals;
 	}
 	
-	pivate function searchTable($name){
+	private function searchTable($name){
 		return DB::table('animals')->where('name', $name)->get();
 	}
 	
 	/**Used for sorting the applications apart, to view only one type, e.g. accepted, denied or pending*/
 	public function sortApplications(){
-		$records = $this->getRecordsOnStatus(request()->show_by);
 		
-		return back()->with('adoptionRecords', $records)->with('option', request()->show_by);
+		$search_input = request()->search_records;
+		if($search_input){
+			if(request()->search_by == 'Name'){
+				$records = $this->RecordsByName($search_input, request()->show_by);
+			}else {
+				$records = DB::table('adoption-_records')->where('ref_id', $search_input)->get();
+			}
+		}else {
+			$records = $this->getRecordsOnStatus(request()->show_by);
+		}
+		
+		return back()->with('adoptionRecords', $records)->with('option', request()->show_by)
+		->with('searched_for', $search_input)->with('show_by', request()->search_by);
 	}
+	
 	/*Returns the rows from the table with the desired status only*/
 	private function getRecordsOnStatus($status){
-		if($status == 'Accepted'){
-			$records = DB::table('adoption-_records')->where('status', 'ACCEPTED')->get();
-		}
-		elseif($status == 'Declined'){
-			$records = DB::table('adoption-_records')->where('status', 'DECLINED')->get();
-		}
-		elseif($status == 'Pending') {
-			$records = DB::table('adoption-_records')->where('status', 'PENDING')->get();
+		$status = strtoupper($status);
+		if($status != 'ALL'){
+			$records = DB::table('adoption-_records')->where('status', $status)->get();
 		}
 		else {
 			$records = DB::table('adoption-_records')->get();
 		}
 		return $records->sortBy('created_at');
+	}
+	
+	private function RecordsByName($input, $status) {
+		$Desiredrecords = [];
+		$animals = DB::table('animals')->where('name', $input)->get();
+		foreach($animals as $animal){
+			$animal_id = $animal->id;
+			if($status != 'All'){
+				$newRecord = DB::table('adoption-_records')->where('adoptee_id', $animal_id)
+				->where('status', strtoupper($status))->get();
+			}else {
+				$newRecord = DB::table('adoption-_records')->where('adoptee_id', $animal_id)->get();
+			}
+			array_push($Desiredrecords, $newRecord); 
+		}
+		return $Desiredrecords;
 	}
 	
 }

@@ -26,15 +26,24 @@
 			method="POST" enctype="multipart/form-data">
 			@csrf
 			<!--Set the default values to all and none, for before any options are chosen-->
-			
-			<b>Show</b> <select name="show_by">
+			<b>Search</b><input name="search_records"/>
+			<select name="search_by">
+				<option>Ref ID</option>
+				<option>Name</option>
+			</select>
+			<b>Status</b> <select name="show_by">
 				<option @if(Session::get('option') == 'All') selected="selected" @endif id="adopted-and-not" >All</option>
 				<option @if(Session::get('option') == 'Accepted') selected="selected" @endif id="adopted-sort" >Accepted</option>
 				<option @if(Session::get('option') == 'Declined') selected="selected" @endif id="not-adopted-sort" >Declined</option>
 				<option @if(Session::get('option') == 'Pending') selected="selected" @endif id="not-adopted-sort" >Pending</option>
 			</select>
-			<button type="submit" class="btn">Apply</button>
+			<button type="submit" class="btn">Search</button>
 			</form>
+		</div>
+		<div class="col-sm-offset-3 col-sm-9">
+			@if($searched_for = Session::get('searched_for'))
+				<b>Results for {{Session::get('show_by')}}:</b> {{$searched_for}}
+			@endif
 		</div>
 	 	<table class="col-sm-offset-1 col-sm-10" id="adoption-records-table-staff-view">
 	 		<thead>

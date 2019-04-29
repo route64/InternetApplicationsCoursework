@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('stylesheets')
 <link href="{{ asset('../resources/css/general-style.css') }}" rel="stylesheet">
+<script src="{{ asset('js/register.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -11,6 +12,16 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
+                @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         
@@ -18,7 +29,7 @@
                             <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
                             <div class="col-md-6">
-                                <select>
+                                <select class="col-sm-5" name="title">
                                     <option>MISS</option>
                                     <option>MRS</option>
                                     <option>MS</option>
@@ -30,7 +41,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Full Name</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -55,7 +66,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" style="font-size: 100%; height: 35px;" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
@@ -66,10 +77,16 @@
                         </div>
 
                         <div class="form-group row">
+                        	<i class="col-sm-offset-4 col-sm-8" id="pswdLengthConfirmation"
+                        	style="font-size: 80%; color: red; text-align: left;">
+                        	Password must be 8 Characters Long</i>
+                            	
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="password" type="password" style="height: 35px;" 
+                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
+                                name="password" required onkeyup='checkPasswordLength(); checkPasswordsMatch()'>
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -80,21 +97,19 @@
                         </div>
 
                         <div class="form-group row">
+                        <div class="registrationFormAlert col-sm-offset-4 col-sm-8" id="checkPasswordsMatch"></div>
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="passwordConfirm" style="height: 35px;" type="password" 
+                                class="form-control" name="password_confirmation" required onkeyup="checkPasswordsMatch()">
                             </div>
                         </div>
-                        
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address-l1" type="text" class="form-control" name="address" required>
-                            </div>
-									 <div class="col-md-offset-4 col-md-6">
-                                <input id="address-l2" type="text" class="form-control" name="address">
+                                <textarea id="address-l1" type="text" class="form-control" name="address" required></textarea>
                             </div>
                         </div>
                         
@@ -107,10 +122,10 @@
                         </div>
                         
                         <div class="form-group row">
+									<div id="phoneNoCheck" class="col-sm-offset-4 col-sm-8"></div>
                             <label for="phone_no" class="col-md-4 col-form-label text-md-right">{{ __('Phone No') }}</label>
-
                             <div class="col-md-6">
-                                <input id="phone_no" type="tel" class="form-control" name="phone_no" required>
+                                <input id="phone_no" style="height: 35px;" type="tel" onkeyup="removeExcessWhiteSpace()" class="form-control" name="phone_no" required>
                             </div>
                         </div>
 

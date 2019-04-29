@@ -56,6 +56,7 @@ Route::get('/staff', function(){
 	$images = DB::table('images')->get();
 	return view('staff', ['staff'=>$staff, 'users'=>$users, 'images'=>$images]);
 });
+Route::post('/staff', 'NewStaffController@registerNewStaff')->name('register.new.staff');
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');

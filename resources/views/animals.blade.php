@@ -6,11 +6,6 @@
 @section('content')
 	<h1 id="animal-title">Animals Up For Adoption</h1>
 	<div id="animal-display-options" class="col-sm-offset-2">
-		<form action="{{ route('animals.sort.post', 'search_records') }}" method="POST" enctype="multipart/form-data">
-		@csrf
-			<b>Name</b><input name="search_names" id="search-animals"/>
-			<button class="btn">Search</button>
-		</form>
 		<form action="{{ route('animals.sort.post', 'sort-animals') }}" method="POST" enctype="multipart/form-data">
 			@csrf
 			<?php $chosen_species = 'all'; $sorted_by = 'none'; ?>

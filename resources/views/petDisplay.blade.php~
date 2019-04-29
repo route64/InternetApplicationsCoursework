@@ -76,9 +76,9 @@
 			@endphp
 			@if(Session::get('application_sent') or $application)
 				<b class="col-sm-offset-3">Application Sent</b>
-
+			<!-- Else check the animal has not already been adopted by someone else before displaying the adoption-->
 			@elseif (!$adopted)
-				<form action="{{ route('display.control.post', [$animal->id, 'adopt', Auth::user()->id]) }}" method="POST" enctype="multipart/form-data" >
+				<form class="col-sm-10 col-sm-offset-3" action="{{ route('display.control.post', [$animal->id, 'adopt', Auth::user()->id]) }}" method="POST" enctype="multipart/form-data" >
 				@csrf
 					<button class="btn col-sm-offset-4" type="submit" name="submit_application" >Apply To Adopt</button>			
 				</form>
